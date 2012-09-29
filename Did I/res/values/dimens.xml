@@ -9,7 +9,10 @@
     <dimen name="indicator_size">20dp</dimen>
     <dimen name="indicator_spacing">12dp</dimen>
     
+    <dimen name="margin_chart">32dp</dimen>
+    
     <!-- Text sizes -->
+    
     <dimen name="text_small">16sp</dimen>
     <dimen name="text_medium">18sp</dimen>
     <dimen name="text_large">20sp</dimen>
