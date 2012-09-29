@@ -3,4 +3,5 @@
     <color name="neutral">#CFCFCF</color>
     <color name="positive">#9EF59E</color>
     <color name="negative">#FF8080</color>
+    <color name="indicator_selected">#616161</color>
 </resources>

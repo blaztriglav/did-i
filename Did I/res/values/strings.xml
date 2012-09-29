@@ -11,5 +11,7 @@
     <string name="did_i">Did I</string>
     <string name="add_a_habit">add a habit</string>
     <string name="question_mark">\?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>
