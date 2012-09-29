@@ -31,7 +31,7 @@
             android:id="@+id/image_view_indicator_3"
             android:layout_width="@dimen/indicator_size"
             android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral" />
 
         <ImageView
