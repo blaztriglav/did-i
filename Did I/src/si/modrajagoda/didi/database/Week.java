@@ -26,4 +26,12 @@ public class Week {
 		this.weekNumber = weekNumber;
 		this.habit = habit;
 	}
+	
+	public int getWeekNumber(){
+		return weekNumber;
+	}
+	
+	public ForeignCollection<WeekDetails> getWeekDetails(){
+		return weekDetails;
+	}
 }

@@ -33,7 +33,7 @@ import android.widget.TextView.OnEditorActionListener;
 public class EditHabits extends ListActivity {
 	
 	private ArrayAdapter<String> adapter;
-	private ArrayList<String> habitQuestions;
+	private ArrayList<String> habitQuestions = null;
 	private DatabaseHelper databaseHelper = null;
 	private Dao<Habit, Integer> habitDao = null;
 
@@ -45,7 +45,16 @@ public class EditHabits extends ListActivity {
 		
 		databaseHelper = getHelper();
 		habitQuestions = new ArrayList<String>();
-		habitQuestions.add("");
+		try {
+			habitDao = databaseHelper.getHabitDao();
+			List<Habit> habits = habitDao.queryForAll();
+			for(Habit habit : habits){
+				habitQuestions.add(habit.getName());
+			}
+			habitQuestions.add("");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		ListView list = getListView();
 		adapter = new CustomAdapter(this, R.layout.list_item_habit, habitQuestions);
