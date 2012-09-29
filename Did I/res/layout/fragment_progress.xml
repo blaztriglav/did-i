@@ -25,14 +25,14 @@
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral" />
 
-       <ImageView
+        <ImageView
             android:id="@+id/image_view_progress_indicator_3"
             android:layout_width="@dimen/indicator_size"
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral" />
 
-       <ImageView
+        <ImageView
             android:id="@+id/image_view_progress_indicator_4"
             android:layout_width="@dimen/indicator_size"
             android:layout_height="@dimen/indicator_size"
@@ -67,10 +67,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/text_view_progress_did_i"
+            android:layout_alignBottom="@id/text_view_progress_did_i"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="2dp"
-            android:layout_alignBottom="@id/text_view_progress_did_i"
             android:layout_toRightOf="@id/text_view_progress_did_i"
+            android:text="exercise"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
 
@@ -82,7 +83,23 @@
             android:layout_toRightOf="@id/text_view_progress_habit"
             android:text="@string/question_mark"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_progress_question"
+        android:layout_margin="@dimen/margin_chart"
+        android:layout_marginBottom="33dp"
+        android:background="@drawable/indicator_neutral" >
+
+        <LinearLayout
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:paddingBottom="1dp"
+            android:orientation="horizontal" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -3,4 +3,6 @@
     <dimen name="indicator_margin_top">20dp</dimen>
     <dimen name="indicator_size">20dp</dimen>
     <dimen name="indicator_spacing">12dp</dimen>
+    
+    <dimen name="margin_chart">32dp</dimen>
 </resources>
