@@ -19,7 +19,7 @@
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral_selected"
-            android:visibility="false"/>
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/image_view_indicator_2"
@@ -27,7 +27,7 @@
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral"
-            android:visibility="false"/>
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/image_view_indicator_3"
@@ -35,7 +35,7 @@
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral"
-            android:visibility="false"/>
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/image_view_indicator_4"
@@ -43,7 +43,7 @@
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral"
-            android:visibility="false"/>
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/image_view_indicator_5"
@@ -51,7 +51,7 @@
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral"
-            android:visibility="false"/>
+            android:visibility="gone"/>
     </LinearLayout>
 
     
