@@ -1,105 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10" >
 
     <LinearLayout
-        android:id="@+id/linear_layout_progress_indicators"
+        android:id="@+id/linear_layout_indicators"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/indicator_margin_top"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
         <ImageView
-            android:id="@+id/image_view_progress_indicator_1"
+            android:id="@+id/image_view_indicator_1"
             android:layout_width="@dimen/indicator_size"
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral_selected" />
 
         <ImageView
-            android:id="@+id/image_view_progress_indicator_2"
+            android:id="@+id/image_view_indicator_2"
             android:layout_width="@dimen/indicator_size"
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral" />
 
         <ImageView
-            android:id="@+id/image_view_progress_indicator_3"
+            android:id="@+id/image_view_indicator_3"
             android:layout_width="@dimen/indicator_size"
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral" />
 
         <ImageView
-            android:id="@+id/image_view_progress_indicator_4"
+            android:id="@+id/image_view_indicator_4"
             android:layout_width="@dimen/indicator_size"
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral" />
 
         <ImageView
-            android:id="@+id/image_view_progress_indicator_5"
+            android:id="@+id/image_view_indicator_5"
             android:layout_width="@dimen/indicator_size"
             android:layout_height="@dimen/indicator_size"
             android:layout_marginLeft="@dimen/indicator_spacing"
             android:src="@drawable/indicator_neutral" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/relative_layout_progress_question"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/text_view_progress_did_i"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="60dp"
-            android:text="@string/did_i"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/text_view_progress_habit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text_view_progress_did_i"
-            android:layout_alignBottom="@id/text_view_progress_did_i"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="2dp"
-            android:layout_toRightOf="@id/text_view_progress_did_i"
-            android:text="exercise"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text_view_progress_habit"
-            android:layout_alignBottom="@id/text_view_progress_habit"
-            android:layout_toRightOf="@id/text_view_progress_habit"
-            android:text="@string/question_mark"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/relative_layout_progress_question"
-        android:layout_margin="@dimen/margin_chart"
-        android:layout_marginBottom="33dp"
-        android:background="@drawable/indicator_neutral" >
-
-        <LinearLayout
-            android:id="@+id/chart"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:paddingBottom="1dp"
-            android:orientation="horizontal" />
-    </RelativeLayout>
+            android:layout_height="match_parent" >
 
-</RelativeLayout>
+            
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+</LinearLayout>
