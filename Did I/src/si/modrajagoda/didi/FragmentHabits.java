@@ -72,6 +72,8 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 		case 1:
 			indicator = (ImageView) view.findViewById(R.id.image_view_indicator_1);
 			indicator.setVisibility(View.VISIBLE);
+			TextView question = (TextView) view.findViewById(R.id.text_view_habit);
+			question.setText(habitQuestions.get(0));
 			break;
 
 		default:
@@ -94,14 +96,14 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 
 		if(v.getId()==R.id.button_yes) {
 			if(count != questionCount){
-				setIndicatorAndQuestion(v, true, count, habitQuestions.get(count));
+				setIndicatorAndQuestion(true, count, habitQuestions.get(count));
 			} else {
 				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
 				indicator.setImageResource(R.drawable.indicator_positive);
 			}
 		} else if(v.getId()==R.id.button_no) {
 			if(count != questionCount){
-				setIndicatorAndQuestion(v, false, count, habitQuestions.get(count));
+				setIndicatorAndQuestion(false, count, habitQuestions.get(count));
 			} else {
 				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
 				indicator.setImageResource(R.drawable.indicator_negative);
@@ -112,10 +114,10 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 		}
 	}
 	
-	private void setIndicatorAndQuestion(View view, boolean answer, int currentPosition, String nextHabit){
-		ImageView thisIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition]);
+	private void setIndicatorAndQuestion(boolean answer, int currentPosition, String nextHabit){
+		ImageView thisIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition-1]);
 		thisIndicator.setImageResource(answer ? R.drawable.indicator_positive : R.drawable.indicator_negative);
-		ImageView nextIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition+1]);
+		ImageView nextIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition]);
 		nextIndicator .setImageResource(R.drawable.indicator_neutral_selected);
 		TextView textViewHabit = (TextView) view.findViewById(R.id.text_view_did_i);
 		textViewHabit.setText(nextHabit);
