@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_side"
         android:layout_weight="0"
-        android:text="1."
-        android:textSize="@dimen/text_medium" />
+        android:textSize="@dimen/text_large" />
 
     <!-- Did I text -->
 
@@ -22,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:text="@string/did_i"
-        android:textSize="@dimen/text_medium" />
+        android:textSize="@dimen/text_large" />
 
     <!-- Edit text for adding habit -->
 
@@ -32,7 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:hint="@string/enter_habit"
-        android:textSize="@dimen/text_large" />
+        android:textSize="@dimen/text_xlarge"
+        android:inputType="textCapSentences"
+        android:imeOptions="actionDone"
+        android:longClickable="true"/>
 
     <!-- Question -->
 
@@ -41,6 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:text="@string/question_mark"
-        android:textSize="@dimen/text_medium" />
+        android:textSize="@dimen/text_large" />
 
 </LinearLayout>

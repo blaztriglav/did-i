@@ -1,5 +1,6 @@
 package si.modrajagoda.didi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,6 +30,9 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 
 		buttonNo = (Button) view.findViewById(R.id.button_no);
 		buttonNo.setOnClickListener(this);
+		
+		Button buttonTest = (Button) view.findViewById(R.id.test_button);
+		buttonTest.setOnClickListener(this);
 		return view;
 	}
 
@@ -73,6 +77,9 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 				indicator5.setImageResource(R.drawable.indicator_negative);
 				break;
 			}
+		} else if (v.getId() == R.id.test_button){
+			Intent intetn = new Intent(getActivity(), EditHabits.class);
+			startActivity(intetn);
 		}
 	}
 	

@@ -119,5 +119,12 @@
             android:text="@string/no"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
+    
+    <Button 
+        android:id="@+id/test_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Launch edit activity"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
