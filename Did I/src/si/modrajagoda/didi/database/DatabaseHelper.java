@@ -6,10 +6,12 @@ import si.modrajagoda.didi.R;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	
@@ -26,12 +28,26 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
-		// No need to create tables (will be done manually)
+		try {
+			TableUtils.createTable(connectionSource, Habit.class);
+			TableUtils.createTable(connectionSource, Week.class);
+			TableUtils.createTable(connectionSource, WeekDetails.class);
+		} catch (SQLException e) {
+			Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
+		}
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
-		// Not needed
+		try {
+			TableUtils.dropTable(connectionSource, Habit.class, true);
+			TableUtils.dropTable(connectionSource, Week.class, true);
+			TableUtils.dropTable(connectionSource, WeekDetails.class, true);
+			onCreate(sqliteDatabase, connectionSource);
+		} catch (SQLException e) {
+			Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new "
+					+ newVer, e);
+		}
 	}
 	
 	/**

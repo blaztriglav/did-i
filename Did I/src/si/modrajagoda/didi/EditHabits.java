@@ -1,7 +1,14 @@
 package si.modrajagoda.didi;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
+import si.modrajagoda.didi.database.DatabaseHelper;
+import si.modrajagoda.didi.database.Habit;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -27,13 +34,16 @@ public class EditHabits extends ListActivity {
 	
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> habitQuestions;
+	private DatabaseHelper databaseHelper = null;
+	private Dao<Habit, Integer> habitDao = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle(R.string.edit_habits);
 		setContentView(R.layout.edit_habits);
-
+		
+		databaseHelper = getHelper();
 		habitQuestions = new ArrayList<String>();
 		habitQuestions.add("");
 
@@ -143,7 +153,19 @@ public class EditHabits extends ListActivity {
 						}
 						
 						// Save to database
-						
+						try {
+							habitDao = databaseHelper.getHabitDao();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+						if(habitDao != null){
+							try {
+								Habit habit = new Habit(v.getText().toString());
+								habitDao.create(habit);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+						}
 					}
 					return false;
 				}
@@ -157,6 +179,23 @@ public class EditHabits extends ListActivity {
 	private static class ViewHolder {
 		TextView habitNumber;
 		EditText habitName;
+	}
+	
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
+	    if (databaseHelper != null) {
+	        OpenHelperManager.releaseHelper();
+	        databaseHelper = null;
+	    }
+	}
+
+	private DatabaseHelper getHelper() {
+	    if (databaseHelper == null) {
+	        databaseHelper =
+	            OpenHelperManager.getHelper(this, DatabaseHelper.class);
+	    }
+	    return databaseHelper;
 	}
 
 }

@@ -1,9 +1,55 @@
 #
-# generated on 2012/09/29 01:06:25
+# generated on 2012/09/29 07:58:51
 #
 # --table-start--
 dataClass=si.modrajagoda.didi.database.Habit
-tableName=habit
+tableName=habits
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=archived
+# --field-end--
+# --field-start--
+fieldName=weeks
+foreignCollection=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=si.modrajagoda.didi.database.Week
+tableName=weeks
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=weekNumber
+columnName=week_number
+# --field-end--
+# --field-start--
+fieldName=weekDetails
+columnName=week_details
+foreignCollection=true
+foreignCollectionColumnName=week_details
+# --field-end--
+# --field-start--
+fieldName=habit
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=si.modrajagoda.didi.database.WeekDetails
+tableName=week_details
 # --table-fields-start--
 # --field-start--
 fieldName=id
@@ -31,7 +77,8 @@ fieldName=day5
 fieldName=day6
 # --field-end--
 # --field-start--
-fieldName=archived
+fieldName=week
+foreign=true
 # --field-end--
 # --table-fields-end--
 # --table-end--

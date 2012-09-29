@@ -1,39 +1,30 @@
 package si.modrajagoda.didi.database;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable
+@DatabaseTable(tableName = "habits")
 public class Habit {
 
 	@DatabaseField(generatedId = true)
 	private int id;
 	
 	@DatabaseField()
-	private boolean day0;
+	private String name;
 	
-	@DatabaseField
-	private boolean day1;
-	
-	@DatabaseField
-	private boolean day2;
-	
-	@DatabaseField
-	private boolean day3;
-	
-	@DatabaseField
-	private boolean day4;
-	
-	@DatabaseField
-	private boolean day5;
-	
-	@DatabaseField
-	private boolean day6;
-	
-	@DatabaseField
+	@DatabaseField()
 	private boolean archived;
+	
+	@ForeignCollectionField
+	ForeignCollection<Week> weeks;
 	
 	public Habit() {
 		// ORMLite needs a no-arg constructor
+	}
+	
+	public Habit(String name){
+		this.name = name;
 	}
 }
