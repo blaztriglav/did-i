@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Genral -->
+    <dimen name="item_height">48dp</dimen>
+    <dimen name="margin_side">16dp</dimen>
+    
+    <!-- Indicators -->
     <dimen name="indicator_margin_top">20dp</dimen>
     <dimen name="indicator_size">20dp</dimen>
     <dimen name="indicator_spacing">12dp</dimen>
     
     <dimen name="margin_chart">32dp</dimen>
+    
+    <!-- Text sizes -->
+    
+    <dimen name="text_small">16sp</dimen>
+    <dimen name="text_medium">18sp</dimen>
+    <dimen name="text_large">20sp</dimen>
+    <dimen name="text_xlarge">22sp</dimen>
 </resources>

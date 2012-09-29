@@ -13,5 +13,11 @@
     <string name="question_mark">\?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    
+    <!-- Edit screen -->
+    <string name="edit_habits">Edit habits</string>
+    <string name="edit_introduction">Establish new habits by asking yourself a simple question every day:</string>
+    <string name="add_qestions">Add your questions.</string>
+    <string name="enter_habit">enter your habit</string>
 
 </resources>
