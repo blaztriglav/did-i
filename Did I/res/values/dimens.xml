@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="indicator_margin_top">50dp</dimen>
+    <dimen name="indicator_margin_top">20dp</dimen>
     <dimen name="indicator_size">20dp</dimen>
     <dimen name="indicator_spacing">12dp</dimen>
 </resources>

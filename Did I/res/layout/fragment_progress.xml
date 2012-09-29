@@ -7,48 +7,44 @@
         android:id="@+id/linear_layout_indicators"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/indicator_margin_top"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/image_view_indicator_1"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/indicator_neutral" />
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:layout_marginLeft="@dimen/indicator_spacing"
+            android:src="@drawable/indicator_neutral_selected" />
 
         <ImageView
             android:id="@+id/image_view_indicator_2"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/indicator_negative"
-            android:visibility="gone" />
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:layout_marginLeft="@dimen/indicator_spacing"
+            android:src="@drawable/indicator_neutral" />
 
-        <ImageView
+       <ImageView
             android:id="@+id/image_view_indicator_3"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/indicator_negative"
-            android:visibility="gone" />
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:layout_marginLeft="@dimen/indicator_spacing"
+            android:src="@drawable/indicator_neutral" />
 
-        <ImageView
+       <ImageView
             android:id="@+id/image_view_indicator_4"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/indicator_positive"
-            android:visibility="gone" />
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:layout_marginLeft="@dimen/indicator_spacing"
+            android:src="@drawable/indicator_neutral" />
 
         <ImageView
             android:id="@+id/image_view_indicator_5"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/indicator_positive"
-            android:visibility="gone" />
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:layout_marginLeft="@dimen/indicator_spacing"
+            android:src="@drawable/indicator_neutral" />
     </LinearLayout>
 
     <RelativeLayout
@@ -62,8 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="120dp"
-            android:text="Woooooo"
+            android:layout_marginTop="80dp"
+            android:text="@string/did_i"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView

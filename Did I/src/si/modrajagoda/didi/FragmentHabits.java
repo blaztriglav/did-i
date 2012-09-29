@@ -24,10 +24,10 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_habits, container, false);
 
-		buttonYes = (Button) view.findViewById(R.id.button2);
+		buttonYes = (Button) view.findViewById(R.id.button_yes);
 		buttonYes.setOnClickListener(this);
 
-		buttonNo = (Button) view.findViewById(R.id.button3);
+		buttonNo = (Button) view.findViewById(R.id.button_no);
 		buttonNo.setOnClickListener(this);
 		return view;
 	}
