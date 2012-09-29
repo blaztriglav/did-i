@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 public class FragmentHabits extends Fragment implements OnClickListener {
 
-	View view;
-	Button buttonYes;
-	Button buttonNo;
-	int count = 1;
+	private View view;
+	private Button buttonYes;
+	private Button buttonNo;
+	private int count = 1;
+	private int[] viewIndicators = {R.id.image_view_indicator_1, R.id.image_view_indicator_2, 
+			R.id.image_view_indicator_3, R.id.image_view_indicator_4, R.id.image_view_indicator_5};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,107 +36,54 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 
 		if(v.getId()==R.id.button2) {
-
-			if(count==1) {
-				ImageView indicator1 = (ImageView) view.findViewById(R.id.image_view_indicator_1);
-				indicator1.setImageResource(R.drawable.indicator_positive);
-				ImageView indicator2 = (ImageView) view.findViewById(R.id.image_view_indicator_2);
-				indicator2.setImageResource(R.drawable.indicator_neutral_selected);
-				count= count + 1;
-				TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
-				textViewHabit.setText("exercise");
-			}
-
-			else if(count==2) {
-				
-				ImageView indicator2 = (ImageView) view.findViewById(R.id.image_view_indicator_2);
-				indicator2.setImageResource(R.drawable.indicator_positive);
-				ImageView indicator3 = (ImageView) view.findViewById(R.id.image_view_indicator_3);
-				indicator3.setImageResource(R.drawable.indicator_neutral_selected);
-				count= count + 1;
-				TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
-				textViewHabit.setText("eat healthy");
-			}
-			
-			else if(count==3) {
-				ImageView indicator3 = (ImageView) view.findViewById(R.id.image_view_indicator_3);
-				indicator3.setImageResource(R.drawable.indicator_positive);
-				ImageView indicator4 = (ImageView) view.findViewById(R.id.image_view_indicator_4);
-				indicator4.setImageResource(R.drawable.indicator_neutral_selected);
-				count= count + 1;
-				TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
-				textViewHabit.setText("meditate");
-			}
-
-			else if(count==4) {
-				
-				ImageView indicator4 = (ImageView) view.findViewById(R.id.image_view_indicator_4);
-				indicator4.setImageResource(R.drawable.indicator_positive);
-				ImageView indicator5 = (ImageView) view.findViewById(R.id.image_view_indicator_5);
-				indicator5.setImageResource(R.drawable.indicator_neutral_selected);
-				count= count + 1;
-				TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
-				textViewHabit.setText("wake up early");
-			}
-			else if(count==5) {
+			switch (count) {
+			case 1:
+				setIndicatorAndQuestion(v, true, 1, "exercise");
+				break;
+			case 2:
+				setIndicatorAndQuestion(v, true, 2, "eat healthy");
+				break;
+			case 3:
+				setIndicatorAndQuestion(v, true, 3, "meditate");
+				break;
+			case 4:
+				setIndicatorAndQuestion(v, true, 4, "wake up early");
+				break;
+			default:
 				ImageView indicator5 = (ImageView) view.findViewById(R.id.image_view_indicator_5);
 				indicator5.setImageResource(R.drawable.indicator_positive);
+				break;
 			}
-
-		}
-		
-		if(v.getId()==R.id.button3) {
-
-			if(count==1) {
-				ImageView indicator1 = (ImageView) view.findViewById(R.id.image_view_indicator_1);
-				indicator1.setImageResource(R.drawable.indicator_negative);
-				ImageView indicator2 = (ImageView) view.findViewById(R.id.image_view_indicator_2);
-				indicator2.setImageResource(R.drawable.indicator_neutral_selected);
-				count= count + 1;
-				TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
-				textViewHabit.setText("exercise");
-			}
-
-			else if(count==2) {
-				
-				ImageView indicator2 = (ImageView) view.findViewById(R.id.image_view_indicator_2);
-				indicator2.setImageResource(R.drawable.indicator_negative);
-				ImageView indicator3 = (ImageView) view.findViewById(R.id.image_view_indicator_3);
-				indicator3.setImageResource(R.drawable.indicator_neutral_selected);
-				count= count + 1;
-				TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
-				textViewHabit.setText("eat healthy");
-			}
-			
-			else if(count==3) {
-				ImageView indicator3 = (ImageView) view.findViewById(R.id.image_view_indicator_3);
-				indicator3.setImageResource(R.drawable.indicator_negative);
-				ImageView indicator4 = (ImageView) view.findViewById(R.id.image_view_indicator_4);
-				indicator4.setImageResource(R.drawable.indicator_neutral_selected);
-				count= count + 1;
-				TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
-				textViewHabit.setText("meditate");
-			}
-
-			else if(count==4) {
-				
-				ImageView indicator4 = (ImageView) view.findViewById(R.id.image_view_indicator_4);
-				indicator4.setImageResource(R.drawable.indicator_negative);
-				ImageView indicator5 = (ImageView) view.findViewById(R.id.image_view_indicator_5);
-				indicator5.setImageResource(R.drawable.indicator_neutral_selected);
-				count= count + 1;
-				TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
-				textViewHabit.setText("wake up early");
-			}
-			else if(count==5) {
+		} else if(v.getId()==R.id.button3) {
+			switch (count) {
+			case 1:
+				setIndicatorAndQuestion(v, false, 1, "exercise");
+				break;
+			case 2:
+				setIndicatorAndQuestion(v, false, 2, "eat healthy");
+				break;
+			case 3:
+				setIndicatorAndQuestion(v, false, 3, "meditate");
+				break;
+			case 4:
+				setIndicatorAndQuestion(v, false, 4, "wake up early");
+				break;
+			default:
 				ImageView indicator5 = (ImageView) view.findViewById(R.id.image_view_indicator_5);
 				indicator5.setImageResource(R.drawable.indicator_negative);
+				break;
 			}
-
 		}
-
-
-
+	}
+	
+	private void setIndicatorAndQuestion(View view, boolean answer, int currentPosition, String nextHabit){
+		ImageView thisIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition]);
+		thisIndicator.setImageResource(answer ? R.drawable.indicator_positive : R.drawable.indicator_negative);
+		ImageView nextIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition+1]);
+		nextIndicator .setImageResource(R.drawable.indicator_neutral_selected);
+		TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
+		textViewHabit.setText(nextHabit);
+		count += 1;
 	}
 
 }

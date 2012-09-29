@@ -1,8 +1,5 @@
 package si.modrajagoda.didi;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
-import si.modrajagoda.didi.database.DatabaseHelper;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -15,8 +12,6 @@ public class Main extends FragmentActivity implements ActionBar.TabListener {
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	private static final String TAB_TAG_HABITS = "habits";
 	private static final String TAB_TAG_PROGRESS = "progress";
-
-	private DatabaseHelper databaseHelper = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,23 +79,6 @@ public class Main extends FragmentActivity implements ActionBar.TabListener {
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (databaseHelper != null) {
-			OpenHelperManager.releaseHelper();
-			databaseHelper = null;
-		}
-	}
-
-	private DatabaseHelper getHelper() {
-		if (databaseHelper == null) {
-			databaseHelper = OpenHelperManager.getHelper(this,
-					DatabaseHelper.class);
-		}
-		return databaseHelper;
 	}
 
 }
