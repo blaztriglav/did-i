@@ -1,0 +1,38 @@
+#
+# generated on 2012/09/29 01:06:25
+#
+# --table-start--
+dataClass=si.modrajagoda.didi.database.Habit
+tableName=habit
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=day0
+# --field-end--
+# --field-start--
+fieldName=day1
+# --field-end--
+# --field-start--
+fieldName=day2
+# --field-end--
+# --field-start--
+fieldName=day3
+# --field-end--
+# --field-start--
+fieldName=day4
+# --field-end--
+# --field-start--
+fieldName=day5
+# --field-end--
+# --field-start--
+fieldName=day6
+# --field-end--
+# --field-start--
+fieldName=archived
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
