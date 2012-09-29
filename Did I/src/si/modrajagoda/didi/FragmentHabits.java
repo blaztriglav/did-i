@@ -35,7 +35,7 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 
-		if(v.getId()==R.id.button2) {
+		if(v.getId()==R.id.button_yes) {
 			switch (count) {
 			case 1:
 				setIndicatorAndQuestion(v, true, 1, "exercise");
@@ -54,7 +54,7 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 				indicator5.setImageResource(R.drawable.indicator_positive);
 				break;
 			}
-		} else if(v.getId()==R.id.button3) {
+		} else if(v.getId()==R.id.button_no) {
 			switch (count) {
 			case 1:
 				setIndicatorAndQuestion(v, false, 1, "exercise");
@@ -81,7 +81,7 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 		thisIndicator.setImageResource(answer ? R.drawable.indicator_positive : R.drawable.indicator_negative);
 		ImageView nextIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition+1]);
 		nextIndicator .setImageResource(R.drawable.indicator_neutral_selected);
-		TextView textViewHabit = (TextView) view.findViewById(R.id.button1);
+		TextView textViewHabit = (TextView) view.findViewById(R.id.text_view_did_i);
 		textViewHabit.setText(nextHabit);
 		count += 1;
 	}
