@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class Main extends FragmentActivity implements ActionBar.TabListener {
@@ -93,6 +94,7 @@ public class Main extends FragmentActivity implements ActionBar.TabListener {
             textView.setGravity(Gravity.CENTER);
             Bundle args = getArguments();
             textView.setText(Integer.toString(args.getInt(ARG_SECTION_NUMBER)));
+            Button button;
             return textView;
         }
     }
