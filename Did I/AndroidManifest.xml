@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name=".EditHabits"/>
+            android:name=".EditHabits"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

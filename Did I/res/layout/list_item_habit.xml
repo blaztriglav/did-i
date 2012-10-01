@@ -33,8 +33,7 @@
         android:hint="@string/enter_habit"
         android:textSize="@dimen/text_xlarge"
         android:inputType="textCapSentences"
-        android:imeOptions="actionDone"
-        android:longClickable="true"/>
+        android:imeOptions="actionDone"/>
 
     <!-- Question -->
 
