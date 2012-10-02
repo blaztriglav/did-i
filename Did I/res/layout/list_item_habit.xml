@@ -32,7 +32,7 @@
         android:layout_weight="1"
         android:hint="@string/enter_habit"
         android:textSize="@dimen/text_xlarge"
-        android:inputType="textCapSentences"
+        android:inputType="text"
         android:imeOptions="actionDone"/>
 
     <!-- Question -->

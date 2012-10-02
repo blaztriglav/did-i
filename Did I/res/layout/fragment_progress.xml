@@ -5,63 +5,29 @@
     android:orientation="vertical"
     android:weightSum="10" >
 
-    <LinearLayout
-        android:id="@+id/linear_layout_indicators"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/indicator_margin_top"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/image_view_indicator_1"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral_selected" />
-
-        <ImageView
-            android:id="@+id/image_view_indicator_2"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral" />
-
-        <ImageView
-            android:id="@+id/image_view_indicator_3"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral" />
-
-        <ImageView
-            android:id="@+id/image_view_indicator_4"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral" />
-
-        <ImageView
-            android:id="@+id/image_view_indicator_5"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral" />
-    </LinearLayout>
-
+	<include layout="@layout/element_indicators"/>
+	
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+        
+        <TextView 
+            android:id="@+id/text_view_no_habits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_habits"
+            android:layout_marginLeft="@dimen/margin_side"
+            android:layout_marginRight="@dimen/margin_side"
+            android:layout_marginTop="100dp"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-
-            
         </android.support.v4.view.ViewPager>
     </LinearLayout>
 

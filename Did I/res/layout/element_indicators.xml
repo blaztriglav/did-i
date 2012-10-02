@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout_indicators"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginTop="@dimen/indicator_margin_top"
+    android:layout_weight="1"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/image_view_indicator_1"
+        android:layout_width="@dimen/indicator_size"
+        android:layout_height="@dimen/indicator_size"
+        android:layout_marginLeft="@dimen/indicator_spacing"
+        android:contentDescription="@string/indicator_progress_description"
+        android:src="@drawable/indicator_neutral_selected"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/image_view_indicator_2"
+        android:layout_width="@dimen/indicator_size"
+        android:layout_height="@dimen/indicator_size"
+        android:layout_marginLeft="@dimen/indicator_spacing"
+        android:contentDescription="@string/indicator_progress_description"
+        android:src="@drawable/indicator_neutral"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/image_view_indicator_3"
+        android:layout_width="@dimen/indicator_size"
+        android:layout_height="@dimen/indicator_size"
+        android:layout_marginLeft="@dimen/indicator_spacing"
+        android:contentDescription="@string/indicator_progress_description"
+        android:src="@drawable/indicator_neutral"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/image_view_indicator_4"
+        android:layout_width="@dimen/indicator_size"
+        android:layout_height="@dimen/indicator_size"
+        android:layout_marginLeft="@dimen/indicator_spacing"
+        android:contentDescription="@string/indicator_progress_description"
+        android:src="@drawable/indicator_neutral"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/image_view_indicator_5"
+        android:layout_width="@dimen/indicator_size"
+        android:layout_height="@dimen/indicator_size"
+        android:layout_marginLeft="@dimen/indicator_spacing"
+        android:contentDescription="@string/indicator_progress_description"
+        android:src="@drawable/indicator_neutral"
+        android:visibility="gone" />
+
+</LinearLayout>

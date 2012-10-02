@@ -5,7 +5,7 @@
     <dimen name="margin_side">16dp</dimen>
     
     <!-- Indicators -->
-    <dimen name="indicator_margin_top">20dp</dimen>
+    <dimen name="indicator_margin_top">30dp</dimen>
     <dimen name="indicator_size">20dp</dimen>
     <dimen name="indicator_spacing">12dp</dimen>
     

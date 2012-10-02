@@ -1,135 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10" >
 
     <!-- Indicator layout -->
-    
-    <LinearLayout
-        android:id="@+id/linear_layout_indicators"
+
+    <include
+        android:layout_weight="2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/indicator_margin_top"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+        layout="@layout/element_indicators" />
 
-        <ImageView
-            android:id="@+id/image_view_indicator_1"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral_selected"
-            android:visibility="gone"/>
+    <!-- View Pager -->
 
-        <ImageView
-            android:id="@+id/image_view_indicator_2"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/image_view_indicator_3"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/image_view_indicator_4"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/image_view_indicator_5"
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:layout_marginLeft="@dimen/indicator_spacing"
-            android:src="@drawable/indicator_neutral"
-            android:visibility="gone"/>
-    </LinearLayout>
-
-    
-    <!-- Question layout -->
-    <RelativeLayout
-        android:id="@+id/relative_layout_question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
-
-        <TextView
-            android:id="@+id/text_view_did_i"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="120dp"
-            android:text="@string/did_i"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/text_view_habit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text_view_did_i"
-            android:layout_alignBottom="@id/text_view_did_i"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="2dp"
-            android:layout_toRightOf="@id/text_view_did_i"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text_view_habit"
-            android:layout_alignBottom="@id/text_view_habit"
-            android:layout_toRightOf="@id/text_view_habit"
-            android:text="@string/question_mark"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </RelativeLayout>
-
-    <!-- Yes/No button layout -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/relative_layout_question"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="100dp"
-        android:orientation="horizontal" >
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/button_yes"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1.0"
-            android:background="@drawable/btn_positive_holo_light"
-            android:text="@string/yes"
+        <TextView
+            android:id="@+id/text_view_no_habits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_side"
+            android:layout_marginRight="@dimen/margin_side"
+            android:layout_marginTop="100dp"
+            android:gravity="center_horizontal"
+            android:text="@string/no_habits"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <Button
-            android:id="@+id/button_no"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="1.0"
-            android:background="@drawable/btn_negative_holo_light"
-            android:text="@string/no"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </android.support.v4.view.ViewPager>
+
     </LinearLayout>
-    
-    <Button 
-        android:id="@+id/test_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Launch edit activity"
-        android:layout_alignParentBottom="true"/>
 
-</RelativeLayout>
+</LinearLayout>

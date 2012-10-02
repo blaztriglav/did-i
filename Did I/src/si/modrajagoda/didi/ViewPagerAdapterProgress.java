@@ -16,26 +16,31 @@ import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ViewPagerAdapter extends PagerAdapter {
+public class ViewPagerAdapterProgress extends PagerAdapter {
 
 	private GraphicalView mChartView;
 
 	private final Context context;
+	private final int questionCount;
+	private final ArrayList<String> habitQuestions;
 
-	public ViewPagerAdapter( Context context )
+	public ViewPagerAdapterProgress(Context context, int questionCount, ArrayList<String> habitQuestions)
 	{
 		this.context = context;
+		this.questionCount = questionCount;
+		this.habitQuestions = habitQuestions;
 	}
 
 	@Override
 	public int getCount()
 	{
-		return 4;
+		return questionCount;
 	}
 
 	@Override
@@ -43,57 +48,65 @@ public class ViewPagerAdapter extends PagerAdapter {
 	{
 		LayoutInflater inflater = (LayoutInflater) pager.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		int habit_number = 0;
-
+		int viewPagerPage = R.layout.view_pager_page_progress_question;
 		switch (position) {
-		case 0: 
+		case 0:
+			View v = inflater.inflate(viewPagerPage, null);
+			loadQuestion(v, 0);
 
-			habit_number = R.layout.habit1;
-			View v = inflater.inflate(habit_number, null);
-			loadChart(v);
+			((ViewPager) pager).addView(v, 0);
+			return v;
+		case 1:
+			
+			v = inflater.inflate(viewPagerPage, null);
+			loadQuestion(v, 1);
 
 
 			((ViewPager) pager).addView(v, 0);
 			return v;
+		case 2:
+			v = inflater.inflate(viewPagerPage, null);
+			loadQuestion(v, 2);
 
-		case 1: 
 
-			habit_number = R.layout.habit1;
-			v = inflater.inflate(habit_number, null);
-			loadChart(v);
+			((ViewPager) pager).addView(v, 0);
+			return v;
+		case 3:
+			v = inflater.inflate(viewPagerPage, null);
+			loadQuestion(v, 3);
 
+
+			((ViewPager) pager).addView(v, 0);
+			return v;
+		case 4:
+			v = inflater.inflate(viewPagerPage, null);
+			loadQuestion(v, 4);
 
 			((ViewPager) pager).addView(v, 0);
 			return v;
 			
-		case 2: 
 
-			habit_number = R.layout.habit1;
-			v = inflater.inflate(habit_number, null);
-			loadChart(v);
-
-
-			((ViewPager) pager).addView(v, 0);
-			return v;
-
-		case 3: 
-
-			habit_number = R.layout.habit1;
-			v = inflater.inflate(habit_number, null);
-			loadChart(v);
-
-
-			((ViewPager) pager).addView(v, 0);
-			return v;
+		default:
+			break;
 		}
 
-		View v = inflater.inflate(habit_number, null);
+		View v = inflater.inflate(viewPagerPage, null);
 
 		((ViewPager) pager).addView(v, 0);
 		return v;
 	}
+	
+	
+	private void loadQuestion(View view, int question) {
+		TextView textViewQuestion = (TextView) view.findViewById(R.id.text_view_question);
+		textViewQuestion.setText(Html.fromHtml(
+				context.getResources().getString(R.string.did_i) 
+				+ " <b>" + habitQuestions.get(question) + "</b>" 
+				+ " ?"));
 
-	private void loadChart(View view) {
+		loadChart(view, question);
+	}
+	private void loadChart(View view, int question) {
 		int[] colors = new int[] {context.getResources().getColor(R.color.negative), context.getResources().getColor(R.color.positive)};
 		String[] titles = new String[] { "Yes", "No" };
 		List<double[]> values = new ArrayList<double[]>();

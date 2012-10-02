@@ -6,13 +6,11 @@ import java.util.List;
 
 import si.modrajagoda.didi.database.DatabaseHelper;
 import si.modrajagoda.didi.database.Habit;
-
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,11 +19,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class FragmentHabits extends Fragment implements OnClickListener {
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
+public class FragmentHabits extends Fragment implements OnClickListener, OnPageChangeListener {
 
 	private View view;
-	private Button buttonYes;
-	private Button buttonNo;
 	private int count = 1;
 	private int[] viewIndicators = {R.id.image_view_indicator_1, R.id.image_view_indicator_2, 
 			R.id.image_view_indicator_3, R.id.image_view_indicator_4, R.id.image_view_indicator_5};
@@ -72,22 +71,21 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 		case 1:
 			indicator = (ImageView) view.findViewById(R.id.image_view_indicator_1);
 			indicator.setVisibility(View.VISIBLE);
-			TextView question = (TextView) view.findViewById(R.id.text_view_habit);
-			question.setText(habitQuestions.get(0));
+			TextView textViewNoHabits = (TextView) view.findViewById(R.id.text_view_no_habits);
+			textViewNoHabits.setVisibility(View.GONE);
 			break;
 
 		default:
 			break;
 		}
-
-		buttonYes = (Button) view.findViewById(R.id.button_yes);
-		buttonYes.setOnClickListener(this);
-
-		buttonNo = (Button) view.findViewById(R.id.button_no);
-		buttonNo.setOnClickListener(this);
 		
-		Button buttonTest = (Button) view.findViewById(R.id.test_button);
-		buttonTest.setOnClickListener(this);
+		ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
+		ViewPagerAdapterHabit adapter = new ViewPagerAdapterHabit(getActivity(), questionCount, habitQuestions);
+		pager.setAdapter(adapter);
+		pager.setOnPageChangeListener(this);
+		pager.setCurrentItem(0);
+
+
 		return view;
 	}
 
@@ -108,10 +106,7 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
 				indicator.setImageResource(R.drawable.indicator_negative);
 			}
-		} else if (v.getId() == R.id.test_button){ // TODO delete this
-			Intent intetn = new Intent(getActivity(), EditHabits.class);
-			startActivity(intetn);
-		}
+		} 
 	}
 	
 	private void setIndicatorAndQuestion(boolean answer, int currentPosition, String nextHabit){
@@ -119,7 +114,7 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 		thisIndicator.setImageResource(answer ? R.drawable.indicator_positive : R.drawable.indicator_negative);
 		ImageView nextIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition]);
 		nextIndicator .setImageResource(R.drawable.indicator_neutral_selected);
-		TextView textViewHabit = (TextView) view.findViewById(R.id.text_view_did_i);
+		TextView textViewHabit = (TextView) view.findViewById(R.id.text_view_question);
 		textViewHabit.setText(nextHabit);
 		count += 1;
 	}
@@ -139,6 +134,24 @@ public class FragmentHabits extends Fragment implements OnClickListener {
 	            OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
 	    }
 	    return databaseHelper;
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPageSelected(int arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
