@@ -1,19 +1,9 @@
 package si.modrajagoda.didi;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.achartengine.ChartFactory;
-import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart.Type;
-import org.achartengine.model.CategorySeries;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.renderer.SimpleSeriesRenderer;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -22,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,7 +50,7 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 			((ViewPager) pager).addView(v, 0);
 			return v;
 		case 1:
-			
+
 			v = inflater.inflate(viewPagerPageHabit, null);
 			loadQuestion(v, 1);
 
@@ -88,7 +77,7 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 
 			((ViewPager) pager).addView(v, 0);
 			return v;
-			
+
 
 		default:
 			break;
@@ -99,8 +88,8 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 		((ViewPager) pager).addView(v, 0);
 		return v;
 	}
-	
-	
+
+
 	private void loadQuestion(View view, int question) {
 		TextView textViewQuestion = (TextView) view.findViewById(R.id.text_view_question);
 		textViewQuestion.setText(Html.fromHtml(
@@ -110,12 +99,14 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 
 		buttonYes = (Button) view.findViewById(R.id.button_yes);
 		buttonYes.setOnClickListener(this);
+		buttonYes.setTag(("Q"+question));
 
 		buttonNo = (Button) view.findViewById(R.id.button_no);
 		buttonNo.setOnClickListener(this);
-		
-//		Button buttonTest = (Button) view.findViewById(R.id.test_button);
-//		buttonTest.setOnClickListener(this);
+		buttonNo.setTag("Q"+question);
+
+		//		Button buttonTest = (Button) view.findViewById(R.id.test_button);
+		//		buttonTest.setOnClickListener(this);
 	}
 
 	@Override
@@ -147,11 +138,48 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-//		if (v.getId() == R.id.test_button){ // TODO delete this
-//			Intent intetn = new Intent(context, EditHabits.class);
-//			context.startActivity(intetn);
-//		}
-		
+
+		ViewPager viewPager = (ViewPager) ((Activity) context).findViewById(R.id.view_pager);
+
+		//Question 1
+		if(v.getId()==R.id.button_yes) {
+			if(v.getTag().equals("Q0")) {
+				viewPager.setCurrentItem(1); 
+			}
+			else if(v.getTag().equals("Q0")) {
+				viewPager.setCurrentItem(1); 
+			}
+			else if(v.getTag().equals("Q1")) {
+				viewPager.setCurrentItem(2); 
+			}
+			else if(v.getTag().equals("Q2")) {
+				viewPager.setCurrentItem(3); 
+			}
+			else if(v.getTag().equals("Q3")) {
+				viewPager.setCurrentItem(4); 
+			}
+
+		}
+
+		else if(v.getId()==R.id.button_no) {
+			if(v.getTag().equals("Q0")) {
+				viewPager.setCurrentItem(1); 
+			}
+			else if(v.getTag().equals("Q1")) {
+				viewPager.setCurrentItem(2); 
+			}
+			else if(v.getTag().equals("Q2")) {
+				viewPager.setCurrentItem(3); 
+			}
+			else if(v.getTag().equals("Q3")) {
+				viewPager.setCurrentItem(4); 
+			}
+		}
+
+		//		if (v.getId() == R.id.test_button){ // TODO delete this
+		//			Intent intetn = new Intent(context, EditHabits.class);
+		//			context.startActivity(intetn);
+		//		}
+
 	}
 }

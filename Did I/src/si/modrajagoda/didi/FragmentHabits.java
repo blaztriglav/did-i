@@ -92,21 +92,21 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 	@Override
 	public void onClick(View v) {
 
-		if(v.getId()==R.id.button_yes) {
-			if(count != questionCount){
-				setIndicatorAndQuestion(true, count, habitQuestions.get(count));
-			} else {
-				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
-				indicator.setImageResource(R.drawable.indicator_positive);
-			}
-		} else if(v.getId()==R.id.button_no) {
-			if(count != questionCount){
-				setIndicatorAndQuestion(false, count, habitQuestions.get(count));
-			} else {
-				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
-				indicator.setImageResource(R.drawable.indicator_negative);
-			}
-		} 
+//		if(v.getId()==R.id.button_yes) {
+//			if(count != questionCount){
+//				setIndicatorAndQuestion(true, count, habitQuestions.get(count));
+//			} else {
+//				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
+//				indicator.setImageResource(R.drawable.indicator_positive);
+//			}
+//		} else if(v.getId()==R.id.button_no) {
+//			if(count != questionCount){
+//				setIndicatorAndQuestion(false, count, habitQuestions.get(count));
+//			} else {
+//				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
+//				indicator.setImageResource(R.drawable.indicator_negative);
+//			}
+//		} 
 	}
 	
 	private void setIndicatorAndQuestion(boolean answer, int currentPosition, String nextHabit){
