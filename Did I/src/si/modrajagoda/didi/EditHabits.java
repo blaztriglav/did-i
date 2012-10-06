@@ -11,8 +11,7 @@ import com.j256.ormlite.dao.ForeignCollection;
 
 import si.modrajagoda.didi.database.DatabaseHelper;
 import si.modrajagoda.didi.database.Habit;
-import si.modrajagoda.didi.database.Week;
-import si.modrajagoda.didi.database.WeekDetails;
+import si.modrajagoda.didi.database.Day;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -226,43 +225,28 @@ public class EditHabits extends ListActivity {
 	}
 	
 	private void deleteHabit(int id){
-		Dao<Week, Integer> weekDao = null;
-		Dao<WeekDetails, Integer> weekDetailsDao = null;
+		Dao<Day, Integer> dayDao = null;
 		Habit habit = null;
 		try {
 			habitDao = databaseHelper.getHabitDao();
-			weekDao = databaseHelper.getWeekDao();
-			weekDetailsDao = databaseHelper.getWeekDetailsDao();
+			dayDao = databaseHelper.getWeekDao();
 			habit = habitDao.queryForId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		ForeignCollection<Week> weeks = habit.getWeeks();
-		CloseableIterator<Week> weekIterator = weeks.closeableIterator();
-		ForeignCollection<WeekDetails> weekDetailsCollection = null;
-		CloseableIterator<WeekDetails> weekDetailsIterator = null;
-		while(weekIterator.hasNext()){
-			Week week = weekIterator.next();
-			weekDetailsCollection = week.getWeekDetails();
-			weekDetailsIterator = weekDetailsCollection.closeableIterator();
-			while(weekDetailsIterator.hasNext()){
-				WeekDetails weekDetails = weekDetailsIterator.next();
-				try {
-					weekDetailsDao.delete(weekDetails);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		ForeignCollection<Day> days = habit.getDays();
+		CloseableIterator<Day> dayIterator = days.closeableIterator();
+		while(dayIterator.hasNext()){
+			Day day = dayIterator.next();
 			try {
-				weekDao.delete(week);
+				dayDao.delete(day);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		try {
-			weekIterator.close();
-			weekDetailsIterator.close();
+			dayIterator.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
