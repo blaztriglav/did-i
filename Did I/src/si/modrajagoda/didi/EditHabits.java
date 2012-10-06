@@ -13,33 +13,34 @@ import si.modrajagoda.didi.database.DatabaseHelper;
 import si.modrajagoda.didi.database.Habit;
 import si.modrajagoda.didi.database.Day;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView.MultiChoiceModeListener;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
-public class EditHabits extends ListActivity {
+public class EditHabits extends FragmentActivity implements OnItemClickListener{
 	
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> habitQuestions = null;
 	private DatabaseHelper databaseHelper = null;
 	private Dao<Habit, Integer> habitDao = null;
+	private TextView noHabits;
+	private ListView list;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,23 +51,30 @@ public class EditHabits extends ListActivity {
 		
 		databaseHelper = getHelper();
 		habitQuestions = new ArrayList<String>(); 
+		
+		noHabits = (TextView) findViewById(R.id.no_babits);
 		try {
 			habitDao = databaseHelper.getHabitDao();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
 			List<Habit> habits = habitDao.queryForAll();
-			for(Habit habit : habits){
-				habitQuestions.add(habit.getName());
-			}
-			if(habitQuestions.size() < 4){
-				habitQuestions.add("");
+			if(habits.size() > 0){
+				getHabitQuestions();
+			} else {
+				noHabits.setVisibility(View.VISIBLE);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		ListView list = getListView();
+		list = (ListView) findViewById(android.R.id.list);
 		adapter = new CustomAdapter(this, R.layout.list_item_habit, habitQuestions);
 		list.setAdapter(adapter);
-/*		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		list.setOnItemClickListener(this);
+		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 		list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 			
 			@Override
@@ -87,19 +95,30 @@ public class EditHabits extends ListActivity {
 		        // Inflate the menu for the CAB
 		        MenuInflater inflater = mode.getMenuInflater();
 		        inflater.inflate(R.menu.context, menu);
-				return false;
+				return true;
 			}
 			
 			@Override
 			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-				SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
+				SparseBooleanArray checkedItems = list.getCheckedItemPositions();
                 for (int i = 0; i < checkedItems.size(); i++) {
-                	switch (item.getItemId()) {
-					case R.id.menu_delete:
-						// TODO delete item
-						break;
-					}
+                	if(checkedItems.valueAt(i)){
+                		int habit = checkedItems.keyAt(i);
+	                	switch (item.getItemId()) {
+						case R.id.menu_delete:
+							try {
+								deleteHabit(habit);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+							// Update list
+							adapter.remove(adapter.getItem(habit));
+							adapter.notifyDataSetChanged();
+							break;
+						}
+                	}
                 }
+                
 				mode.finish(); // Action picked, so close the CAB
 				return false;
 			}
@@ -108,11 +127,13 @@ public class EditHabits extends ListActivity {
 			public void onItemCheckedStateChanged(ActionMode mode, int position,
 					long id, boolean checked) {
 				mode.setTitle(getString(R.string.selected_items)+" "+
-					Integer.toString(getListView().getCheckedItemCount()));
-				// TODO set background color
+						Integer.toString(list.getCheckedItemCount()));
+				if(checked){
+					// TODO set background
+				}
 			}
 		});
-*/	}
+	}
 
 	private class CustomAdapter extends ArrayAdapter<String> {
 		private Context mContext;
@@ -144,7 +165,7 @@ public class EditHabits extends ListActivity {
 				holder = new ViewHolder();
 				holder.habitNumber = (TextView) convertView
 						.findViewById(R.id.question_number);
-				holder.habitName = (EditText) convertView
+				holder.habitName = (TextView) convertView
 						.findViewById(R.id.habit_name);
 
 				convertView.setTag(holder);
@@ -156,39 +177,21 @@ public class EditHabits extends ListActivity {
 
 			holder.habitNumber.setText(Integer.toString(position + 1)+".");
 			holder.habitName.setText(habitQuestions.get(position));
-			holder.habitName.setOnEditorActionListener(new OnEditorActionListener() {
-				
-				@Override
-				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-					if(actionId == EditorInfo.IME_ACTION_DONE && v.getText() != null){
-						// After saving a question display a new one unless there are already 5
-						habitQuestions.set(position, v.getText().toString());
-						if(position == getListView().getCount()-1 && position != 4){
-							habitQuestions.add("");
-							adapter.notifyDataSetChanged();
-						}
-						
-						// Save to database
-						try {
-							habitDao = databaseHelper.getHabitDao();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-						if(habitDao != null){
-							try {
-								Habit habit = new Habit(v.getText().toString());
-								habitDao.create(habit);
-							} catch (SQLException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-					return false;
-				}
-			});
 
 			return convertView;
 		}
+	}
+	
+	// ViewHolder for the efficient adapter
+	private static class ViewHolder {
+		TextView habitNumber;
+		TextView habitName;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.edit, menu);
+		return true;
 	}
 	
 	@Override
@@ -197,59 +200,35 @@ public class EditHabits extends ListActivity {
 		case android.R.id.home:
 			finish();
 			break;
+		case R.id.menu_new:
+			List<Habit> habits = null;
+			try {
+				habits = habitDao.queryForAll();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			if(habits.size() < 5){
+				showDialog("");
+			}
+			break;
 		}
 		
 		return super.onOptionsItemSelected(item);
 	}
-	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
-		switch (item.getItemId()) {
-		case R.id.context_delete:
-			// Delete item at position
-			int position = info.position;
-			deleteHabit(position);
-			
-			// 
-			break;
-		}
-		return super.onContextItemSelected(item);
-	}
 
-	// ViewHolder for the efficient adapter
-	private static class ViewHolder {
-		TextView habitNumber;
-		EditText habitName;
-	}
-	
-	private void deleteHabit(int id){
-		Dao<Day, Integer> dayDao = null;
-		Habit habit = null;
-		try {
-			habitDao = databaseHelper.getHabitDao();
-			dayDao = databaseHelper.getWeekDao();
-			habit = habitDao.queryForId(id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	private void deleteHabit(int id) throws SQLException{
+		Dao<Day, Integer> dayDao = databaseHelper.getWeekDao();
+		Habit habit = habitDao.queryForId(id+1);
 		
 		ForeignCollection<Day> days = habit.getDays();
 		CloseableIterator<Day> dayIterator = days.closeableIterator();
 		while(dayIterator.hasNext()){
 			Day day = dayIterator.next();
-			try {
-				dayDao.delete(day);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		try {
-			dayIterator.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			dayDao.delete(day);
+		} 
+		dayIterator.close();
+		
+		habitDao.delete(habit);
 	}
 	
 	@Override
@@ -269,4 +248,55 @@ public class EditHabits extends ListActivity {
 	    return databaseHelper;
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		try {
+			Habit habit = habitDao.queryForId(position+1);
+			showDialog(habit.getName());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	void showDialog(String habitName) {
+	    DialogFragment newFragment = DialogEditHabit.newInstance(habitName);
+	    newFragment.show(getSupportFragmentManager(), "dialog");
+	}
+
+	public void doPositiveClick(String habitName) { 
+		Habit habit = new Habit(habitName);
+		try {
+			habitDao.createOrUpdate(habit);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// Update list
+		adapter.clear();
+		getHabitQuestions();
+		adapter.notifyDataSetChanged();
+		
+		// Hide no habits text if needed
+		if(habitQuestions.size() > 0){
+			noHabits.setVisibility(View.GONE);
+		} else {
+			noHabits.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	private void getHabitQuestions(){
+		habitQuestions.clear();
+		List<Habit> habits;
+		try {
+			habits = habitDao.queryForAll();
+			for(Habit habit : habits){
+				Log.d("Edit", "adding question");
+				habitQuestions.add(habit.getName());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

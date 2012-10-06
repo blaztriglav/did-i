@@ -9,39 +9,44 @@
     <TextView
         android:id="@+id/question_number"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginRight="@dimen/margin_side"
         android:layout_weight="0"
+        android:gravity="center_vertical"
         android:textSize="@dimen/text_large" />
 
     <!-- Did I text -->
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="0"
+        android:gravity="center_vertical"
         android:text="@string/did_i"
         android:textSize="@dimen/text_large" />
 
-    <!-- Edit text for adding habit -->
+    <!-- Name of habit -->
 
-    <si.modrajagoda.didi.CustomEditText
+    <TextView
         android:id="@+id/habit_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:gravity="center_vertical"
         android:hint="@string/enter_habit"
-        android:textSize="@dimen/text_xlarge"
-        android:inputType="text"
-        android:imeOptions="actionDone"/>
+        android:minHeight="@dimen/item_height"
+        android:paddingLeft="@dimen/margin_side"
+        android:paddingRight="@dimen/margin_side"
+        android:textSize="@dimen/text_xlarge" />
 
     <!-- Question -->
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="0"
+        android:gravity="center_vertical"
         android:text="@string/question_mark"
-        android:textSize="@dimen/text_large" />
+        android:textSize="@dimen/text_large"/>
 
 </LinearLayout>
