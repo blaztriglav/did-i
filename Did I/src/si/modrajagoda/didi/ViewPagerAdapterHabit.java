@@ -18,6 +18,7 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -227,6 +228,8 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 			day = dayDao.query(builder.prepare()).get(0);
 			day.setDayAnswer(answer);
 			dayDao.update(day);
+			
+			Log.d("DAY", "Value: " + day.getDayAnswer());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

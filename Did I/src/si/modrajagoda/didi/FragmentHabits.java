@@ -89,23 +89,29 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 				habit = habits.get(i);
 				days = habit.getDays();
 				
-				List<Day> ansurs = dayDao.queryForAll();
+				Log.d("DAYSIZE", "Days:" + days.size());
 				
 				if(lastDayOfEntry != 0) {
+					Log.d("I RAN 1", "Days:" + days.size());
 					if(currentDay - lastDayOfEntry > 0) {
 
 
 						for (int i2 = 0; i2 < (currentDay-lastDayOfEntry); i2++) {
 							day = new Day(habit, days.size()+1, false);
 							dayDao.create(day);
+							Log.d("I RAN 2", "Days:" + days.size());
 						}
 					}
+					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 
 				}
 				
 				else {
 					day = new Day(habit, days.size()+1, false);
 					dayDao.create(day);
+					Log.d("I RAN 3", "Days:" + days.size());
+					
+					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 				}
 			}
 
@@ -113,8 +119,6 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 			e.printStackTrace();
 		}
 
-		settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
-		
 		// Dynamically display number of habits indicator
 		ImageView indicator;
 		switch (questionCount) {
