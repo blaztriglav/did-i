@@ -160,8 +160,6 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 				answersArray[i] = 0;
 			}
 
-//			Log.d("Ansurarray", "Answers: " + answersArray[0] + " " + answersArray[1] + " " + answersArray[2] + " " + answersArray[3] + " ");
-
 		}
 
 		int numberOfWeeks = (days.size()/7) + 1;
