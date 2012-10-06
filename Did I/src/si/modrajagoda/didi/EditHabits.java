@@ -42,16 +42,19 @@ public class EditHabits extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setTitle(R.string.edit_habits);
 		setContentView(R.layout.edit_habits);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		databaseHelper = getHelper();
-		habitQuestions = new ArrayList<String>();
+		habitQuestions = new ArrayList<String>(); 
 		try {
 			habitDao = databaseHelper.getHabitDao();
 			List<Habit> habits = habitDao.queryForAll();
 			for(Habit habit : habits){
 				habitQuestions.add(habit.getName());
 			}
-			habitQuestions.add("");
+			if(habitQuestions.size() < 4){
+				habitQuestions.add("");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -182,6 +185,17 @@ public class EditHabits extends ListActivity {
 
 			return convertView;
 		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		}
+		
+		return super.onOptionsItemSelected(item);
 	}
 
 	// ViewHolder for the efficient adapter
