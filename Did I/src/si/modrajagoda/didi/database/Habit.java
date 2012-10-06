@@ -18,7 +18,7 @@ public class Habit {
 	private boolean archived;
 	
 	@ForeignCollectionField
-	ForeignCollection<Week> weeks;
+	ForeignCollection<Day> days;
 	
 	public Habit() {
 		// ORMLite needs a no-arg constructor
@@ -32,7 +32,7 @@ public class Habit {
 		return name;
 	}
 	
-	public ForeignCollection<Week> getWeeks(){
-		return weeks;
+	public ForeignCollection<Day> getDays(){
+		return days;
 	}
 }

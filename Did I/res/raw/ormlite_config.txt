@@ -1,6 +1,29 @@
 #
-# generated on 2012/09/29 08:38:41
+# generated on 2012/10/06 03:57:49
 #
+# --table-start--
+dataClass=si.modrajagoda.didi.database.Day
+tableName=week_details
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=dayNumber
+columnName=day_number
+# --field-end--
+# --field-start--
+fieldName=dayAnswer
+columnName=day_answer
+# --field-end--
+# --field-start--
+fieldName=habit
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
 # --table-start--
 dataClass=si.modrajagoda.didi.database.Habit
 tableName=habits
@@ -16,69 +39,8 @@ fieldName=name
 fieldName=archived
 # --field-end--
 # --field-start--
-fieldName=weeks
+fieldName=days
 foreignCollection=true
-# --field-end--
-# --table-fields-end--
-# --table-end--
-#################################
-# --table-start--
-dataClass=si.modrajagoda.didi.database.Week
-tableName=weeks
-# --table-fields-start--
-# --field-start--
-fieldName=id
-generatedId=true
-# --field-end--
-# --field-start--
-fieldName=weekNumber
-columnName=week_number
-# --field-end--
-# --field-start--
-fieldName=weekDetails
-columnName=week_details
-foreignCollection=true
-foreignCollectionColumnName=week_details
-# --field-end--
-# --field-start--
-fieldName=habit
-foreign=true
-# --field-end--
-# --table-fields-end--
-# --table-end--
-#################################
-# --table-start--
-dataClass=si.modrajagoda.didi.database.WeekDetails
-tableName=week_details
-# --table-fields-start--
-# --field-start--
-fieldName=id
-generatedId=true
-# --field-end--
-# --field-start--
-fieldName=day0
-# --field-end--
-# --field-start--
-fieldName=day1
-# --field-end--
-# --field-start--
-fieldName=day2
-# --field-end--
-# --field-start--
-fieldName=day3
-# --field-end--
-# --field-start--
-fieldName=day4
-# --field-end--
-# --field-start--
-fieldName=day5
-# --field-end--
-# --field-start--
-fieldName=day6
-# --field-end--
-# --field-start--
-fieldName=week
-foreign=true
 # --field-end--
 # --table-fields-end--
 # --table-end--

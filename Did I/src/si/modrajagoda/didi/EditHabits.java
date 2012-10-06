@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.ForeignCollection;
 
 import si.modrajagoda.didi.database.DatabaseHelper;
 import si.modrajagoda.didi.database.Habit;
+import si.modrajagoda.didi.database.Day;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -24,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView.MultiChoiceModeListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -62,7 +66,7 @@ public class EditHabits extends ListActivity {
 		ListView list = getListView();
 		adapter = new CustomAdapter(this, R.layout.list_item_habit, habitQuestions);
 		list.setAdapter(adapter);
-		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+/*		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 		list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 			
 			@Override
@@ -108,7 +112,7 @@ public class EditHabits extends ListActivity {
 				// TODO set background color
 			}
 		});
-	}
+*/	}
 
 	private class CustomAdapter extends ArrayAdapter<String> {
 		private Context mContext;
@@ -197,11 +201,55 @@ public class EditHabits extends ListActivity {
 		
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		switch (item.getItemId()) {
+		case R.id.context_delete:
+			// Delete item at position
+			int position = info.position;
+			deleteHabit(position);
+			
+			// 
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
 
 	// ViewHolder for the efficient adapter
 	private static class ViewHolder {
 		TextView habitNumber;
 		EditText habitName;
+	}
+	
+	private void deleteHabit(int id){
+		Dao<Day, Integer> dayDao = null;
+		Habit habit = null;
+		try {
+			habitDao = databaseHelper.getHabitDao();
+			dayDao = databaseHelper.getWeekDao();
+			habit = habitDao.queryForId(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		ForeignCollection<Day> days = habit.getDays();
+		CloseableIterator<Day> dayIterator = days.closeableIterator();
+		while(dayIterator.hasNext()){
+			Day day = dayIterator.next();
+			try {
+				dayDao.delete(day);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			dayIterator.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
