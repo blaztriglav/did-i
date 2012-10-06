@@ -1,7 +1,17 @@
 package si.modrajagoda.didi;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
+
+import si.modrajagoda.didi.database.DatabaseHelper;
+import si.modrajagoda.didi.database.Day;
+import si.modrajagoda.didi.database.Habit;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Parcelable;
@@ -20,14 +30,29 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 	private final Context context;
 	private final int questionCount;
 	private final ArrayList<String> habitQuestions;
+	private List<Habit> habits;
+	private Habit habit;
+	private ForeignCollection<Day> days;
+	private Day day;
 	private Button buttonYes;
 	private Button buttonNo;
+	private DatabaseHelper databaseHelper = null;
+	
+	private Dao<Day, Integer> dayDao = null;
 
-	public ViewPagerAdapterHabit(Context context, int questionCount, ArrayList<String> habitQuestions)
+	public ViewPagerAdapterHabit(Context context, int questionCount, ArrayList<String> habitQuestions, List<Habit> habits, DatabaseHelper databaseHelper)
 	{
 		this.context = context;
 		this.questionCount = questionCount;
 		this.habitQuestions = habitQuestions;
+		this.habits = habits;
+		this.databaseHelper = databaseHelper;
+		
+		try {
+			dayDao = databaseHelper.getDayDao();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -105,8 +130,6 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 		buttonNo.setOnClickListener(this);
 		buttonNo.setTag("Q"+question);
 
-		//		Button buttonTest = (Button) view.findViewById(R.id.test_button);
-		//		buttonTest.setOnClickListener(this);
 	}
 
 	@Override
@@ -141,21 +164,28 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 
 		ViewPager viewPager = (ViewPager) ((Activity) context).findViewById(R.id.view_pager);
 
+
 		//Question 1
 		if(v.getId()==R.id.button_yes) {
 			if(v.getTag().equals("Q0")) {
-				viewPager.setCurrentItem(1); 
-			}
-			else if(v.getTag().equals("Q0")) {
+				
+				answerQuestion(0, true);
 				viewPager.setCurrentItem(1); 
 			}
 			else if(v.getTag().equals("Q1")) {
-				viewPager.setCurrentItem(2); 
+				answerQuestion(1, true);
+				viewPager.setCurrentItem(1); 
 			}
 			else if(v.getTag().equals("Q2")) {
-				viewPager.setCurrentItem(3); 
+				answerQuestion(2, true);
+				viewPager.setCurrentItem(2); 
 			}
 			else if(v.getTag().equals("Q3")) {
+				answerQuestion(3, true);
+				viewPager.setCurrentItem(3); 
+			}
+			else if(v.getTag().equals("Q4")) {
+				answerQuestion(4, true);
 				viewPager.setCurrentItem(4); 
 			}
 
@@ -163,23 +193,43 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 
 		else if(v.getId()==R.id.button_no) {
 			if(v.getTag().equals("Q0")) {
+				answerQuestion(0, false);
 				viewPager.setCurrentItem(1); 
 			}
 			else if(v.getTag().equals("Q1")) {
+				answerQuestion(1, false);
 				viewPager.setCurrentItem(2); 
 			}
 			else if(v.getTag().equals("Q2")) {
+				answerQuestion(2, false);
 				viewPager.setCurrentItem(3); 
 			}
 			else if(v.getTag().equals("Q3")) {
+				answerQuestion(3, false);
+				viewPager.setCurrentItem(4); 
+			}
+			else if(v.getTag().equals("Q4")) {
+				answerQuestion(4, false);
 				viewPager.setCurrentItem(4); 
 			}
 		}
 
-		//		if (v.getId() == R.id.test_button){ // TODO delete this
-		//			Intent intetn = new Intent(context, EditHabits.class);
-		//			context.startActivity(intetn);
-		//		}
+	}
 
+	private void answerQuestion(int question, boolean answer) {
+		habit = habits.get(question);
+		days = habit.getDays();
+		
+		QueryBuilder<Day, Integer> builder = dayDao.queryBuilder();
+		Where<Day, Integer> where = builder.where();
+		try {
+			where.eq("day_number", days.size());
+			day = dayDao.query(builder.prepare()).get(0);
+			day.setDayAnswer(answer);
+			dayDao.update(day);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

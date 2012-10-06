@@ -110,8 +110,8 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		int[] colors = new int[] {context.getResources().getColor(R.color.negative), context.getResources().getColor(R.color.positive)};
 		String[] titles = new String[] { "Yes", "No" };
 		List<double[]> values = new ArrayList<double[]>();
-		values.add(new double[] { 7, 7, 7, 7, 7, 7, 7 });
-		values.add(new double[] { 1, 4, 6, 7, 6, 7, 7 });
+		values.add(new double[] {7, 7, 7, 7, 7, 7, 7});
+		values.add(new double[] {6, 7, 6, 6, 5, 1, 2});
 
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.chart);
 		XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);

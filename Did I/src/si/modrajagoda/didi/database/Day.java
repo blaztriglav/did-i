@@ -30,8 +30,16 @@ public class Day {
 		return dayNumber;
 	}
 	
+	public void setDayNumber(int dayNumber){
+		this.dayNumber = dayNumber;
+	}
+	
 	public boolean getDayAnswer(){
 		return dayAnswer;
+	}
+	
+	public void setDayAnswer(boolean dayAnswer){
+		this.dayAnswer = dayAnswer;
 	}
 	
 }
