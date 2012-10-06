@@ -85,38 +85,12 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 		pager.setOnPageChangeListener(this);
 		pager.setCurrentItem(0);
 
-
 		return view;
 	}
 
 	@Override
 	public void onClick(View v) {
 
-//		if(v.getId()==R.id.button_yes) {
-//			if(count != questionCount){
-//				setIndicatorAndQuestion(true, count, habitQuestions.get(count));
-//			} else {
-//				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
-//				indicator.setImageResource(R.drawable.indicator_positive);
-//			}
-//		} else if(v.getId()==R.id.button_no) {
-//			if(count != questionCount){
-//				setIndicatorAndQuestion(false, count, habitQuestions.get(count));
-//			} else {
-//				ImageView indicator = (ImageView) view.findViewById(viewIndicators[count-1]);
-//				indicator.setImageResource(R.drawable.indicator_negative);
-//			}
-//		} 
-	}
-	
-	private void setIndicatorAndQuestion(boolean answer, int currentPosition, String nextHabit){
-		ImageView thisIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition-1]);
-		thisIndicator.setImageResource(answer ? R.drawable.indicator_positive : R.drawable.indicator_negative);
-		ImageView nextIndicator = (ImageView) view.findViewById(viewIndicators[currentPosition]);
-		nextIndicator .setImageResource(R.drawable.indicator_neutral_selected);
-		TextView textViewHabit = (TextView) view.findViewById(R.id.text_view_question);
-		textViewHabit.setText(nextHabit);
-		count += 1;
 	}
 	
 	@Override
@@ -149,7 +123,19 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 	}
 
 	@Override
-	public void onPageSelected(int arg0) {
+	public void onPageSelected(int page) {
+		
+		ImageView imageViewIndicator = (ImageView) view.findViewById(viewIndicators[page]);
+		imageViewIndicator.setImageResource(R.drawable.indicator_neutral_selected);
+
+		if(page > 0 ) {
+			imageViewIndicator = (ImageView) view.findViewById(viewIndicators[page-1]);
+			imageViewIndicator.setImageResource(R.drawable.indicator_neutral);
+		}
+		if(page < viewIndicators.length) {
+			imageViewIndicator = (ImageView) view.findViewById(viewIndicators[page+1]);
+			imageViewIndicator.setImageResource(R.drawable.indicator_neutral);
+		}
 		// TODO Auto-generated method stub
 		
 	}

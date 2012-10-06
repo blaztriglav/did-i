@@ -105,8 +105,6 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 		buttonNo.setOnClickListener(this);
 		buttonNo.setTag("Q"+question);
 
-		//		Button buttonTest = (Button) view.findViewById(R.id.test_button);
-		//		buttonTest.setOnClickListener(this);
 	}
 
 	@Override
@@ -175,11 +173,6 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 				viewPager.setCurrentItem(4); 
 			}
 		}
-
-		//		if (v.getId() == R.id.test_button){ // TODO delete this
-		//			Intent intetn = new Intent(context, EditHabits.class);
-		//			context.startActivity(intetn);
-		//		}
 
 	}
 }
