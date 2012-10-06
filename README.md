@@ -14,7 +14,7 @@ Because I wanted to make one that does exactly what I want, no more no less, plu
 
 * Why can I only add 5 habits?
 
-Establishing one new positive habit is hard enough, 5 seems like a decent limit for now, though I've contemplated cutting it down to 3. Expanding the limit by editing the code shouldn't take much if you are so inclined.
+Establishing one new positive habit is hard enough. 5 seems like a decent limit for now, though I've contemplated cutting it down to 3. Expanding the limit by editing the code shouldn't take much if you are so inclined.
 
 * How do I delete habits?
 
@@ -24,11 +24,15 @@ In the edit screen, long press on the habit you want to delete.
 
 Laziness for now. Considering how simple the app is, it shouldn't be too hard porting it to 2.2 or 2.3+ with ActionBarSherlock.
 
+* How do you draw the charts?
+
+With [AChartEngine](http://www.achartengine.org/).
+
 * Your code is quite strange in parts.
 
 I started coding/copy-pasting from Google and StackOverflow a year ago, so the code quality leaves a lot to be desired. If anyone wishes to demonstrate how a real programmer would code this, please do, as that would be an immense learning opportunity for me.
 
-The parts that aren't that strange in the code (namely the database), are from my friend @nejctomsic, who has patiently helped me out, and managed to control his temper while trying to figure out what the hell I am doing in the code.
+The parts that aren't that strange in the code (namely the database), are from my friend @Nordak, who has patiently helped me out, and managed to control his temper while trying to figure out what the hell I am doing in the code.
 
 * Will this app be developed further?
 

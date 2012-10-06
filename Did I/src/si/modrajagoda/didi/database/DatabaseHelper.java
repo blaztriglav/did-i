@@ -60,7 +60,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return habitDao;
 	}
 	
-	public Dao<Day, Integer> getWeekDao() throws SQLException {
+	public Dao<Day, Integer> getDayDao() throws SQLException {
 		if (dayDao == null) {
 			dayDao = getDao(Day.class);
 		}

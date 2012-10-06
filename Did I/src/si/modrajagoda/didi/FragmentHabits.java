@@ -2,15 +2,20 @@ package si.modrajagoda.didi;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import si.modrajagoda.didi.database.DatabaseHelper;
+import si.modrajagoda.didi.database.Day;
 import si.modrajagoda.didi.database.Habit;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,37 +26,94 @@ import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 public class FragmentHabits extends Fragment implements OnClickListener, OnPageChangeListener {
 
 	private View view;
-	private int count = 1;
 	private int[] viewIndicators = {R.id.image_view_indicator_1, R.id.image_view_indicator_2, 
 			R.id.image_view_indicator_3, R.id.image_view_indicator_4, R.id.image_view_indicator_5};
-	
+
 	private ArrayList<String> habitQuestions = null;
 	private int questionCount = 0;
+	private List<Habit> habits;
 	private DatabaseHelper databaseHelper = null;
 	private Dao<Habit, Integer> habitDao = null;
+	private Dao<Day, Integer> dayDao = null;
+
+	private Habit habit;
+	private ForeignCollection<Day> days;
+	private Day day;
+
+	private static SharedPreferences settings;
+	private Calendar date;
+	private int currentDay;
+	private int lastDayOfEntry;
+	private String LAST_DAY_OF_ENTRY = "LAST_DAY_OF_ENTRY";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_habits, container, false);
-		
+
 		// Get all the habits from the database
 		databaseHelper = getHelper();
 		habitQuestions = new ArrayList<String>();
 		try {
 			habitDao = databaseHelper.getHabitDao();
-			List<Habit> habits = habitDao.queryForAll();
+			habits = habitDao.queryForAll();
 			questionCount = habits.size();
+
 			for(Habit habit : habits){
 				habitQuestions.add(habit.getName());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		// Check the date, add no's for unanswered days in between last check-in
+
+		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		date = Calendar.getInstance();
+		currentDay = date.get(Calendar.DAY_OF_YEAR);
+		lastDayOfEntry = settings.getInt(LAST_DAY_OF_ENTRY, 0);
+
+		try {
+			dayDao = databaseHelper.getDayDao();
+
+			for(int i = 0; i < questionCount; i++) {
+
+				habit = habits.get(i);
+				days = habit.getDays();
+				
+				List<Day> ansurs = dayDao.queryForAll();
+				
+				if(lastDayOfEntry != 0) {
+					if(currentDay - lastDayOfEntry > 0) {
+
+
+						for (int i2 = 0; i2 < (currentDay-lastDayOfEntry); i2++) {
+							day = new Day(habit, days.size()+1, false);
+							dayDao.create(day);
+						}
+					}
+
+				}
+				
+				else {
+					day = new Day(habit, days.size()+1, false);
+					dayDao.create(day);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 		
 		// Dynamically display number of habits indicator
 		ImageView indicator;
@@ -78,12 +140,13 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 		default:
 			break;
 		}
-		
+
 		ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
-		ViewPagerAdapterHabit adapter = new ViewPagerAdapterHabit(getActivity(), questionCount, habitQuestions);
+		ViewPagerAdapterHabit adapter = new ViewPagerAdapterHabit(getActivity(), questionCount, habitQuestions, habits, databaseHelper);
 		pager.setAdapter(adapter);
 		pager.setOnPageChangeListener(this);
 		pager.setCurrentItem(0);
+
 
 		return view;
 	}
@@ -92,39 +155,39 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 	public void onClick(View v) {
 
 	}
-	
+
 	@Override
 	public void onDestroy() {
-	    super.onDestroy();
-	    if (databaseHelper != null) {
-	        OpenHelperManager.releaseHelper();
-	        databaseHelper = null;
-	    }
+		super.onDestroy();
+		if (databaseHelper != null) {
+			OpenHelperManager.releaseHelper();
+			databaseHelper = null;
+		}
 	}
 
 	private DatabaseHelper getHelper() {
-	    if (databaseHelper == null) {
-	        databaseHelper =
-	            OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
-	    }
-	    return databaseHelper;
+		if (databaseHelper == null) {
+			databaseHelper =
+					OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
+		}
+		return databaseHelper;
 	}
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onPageSelected(int page) {
-		
+
 		ImageView imageViewIndicator = (ImageView) view.findViewById(viewIndicators[page]);
 		imageViewIndicator.setImageResource(R.drawable.indicator_neutral_selected);
 
@@ -136,8 +199,7 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 			imageViewIndicator = (ImageView) view.findViewById(viewIndicators[page+1]);
 			imageViewIndicator.setImageResource(R.drawable.indicator_neutral);
 		}
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

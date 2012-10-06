@@ -229,7 +229,7 @@ public class EditHabits extends ListActivity {
 		Habit habit = null;
 		try {
 			habitDao = databaseHelper.getHabitDao();
-			dayDao = databaseHelper.getWeekDao();
+			dayDao = databaseHelper.getDayDao();
 			habit = habitDao.queryForId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
