@@ -3,7 +3,7 @@ package si.modrajagoda.didi.database;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "week_details")
+@DatabaseTable(tableName = "days")
 public class Day {
 
 	@DatabaseField(generatedId = true)

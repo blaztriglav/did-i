@@ -12,6 +12,15 @@
         android:textSize="@dimen/text_xlarge"
 		android:layout_margin="@dimen/margin_side"/>
     
+    <!-- Text when no habits set -->
+    <TextView 
+        android:id="@+id/no_babits"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/margin_side"
+        android:text="@string/no_habits"
+        android:visibility="gone"/>
+    
     <!-- List with habits -->
 	<ListView
 	    android:id="@android:id/list"

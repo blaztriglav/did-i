@@ -21,7 +21,12 @@
     <string name="add_qestions">Add your questions.</string>
     <string name="enter_habit">enter your habit</string>
     <string name="menu_delete">Delete</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_new">New</string>
     <string name="selected_items">Selected items</string>
+    <string name="dialog_edit_habit_title">Edit habit</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     
     <!-- Content description -->
     
