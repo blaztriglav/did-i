@@ -17,7 +17,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -217,7 +216,7 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 	}
 
 	private void deleteHabit(int id) throws SQLException{
-		Dao<Day, Integer> dayDao = databaseHelper.getWeekDao();
+		Dao<Day, Integer> dayDao = databaseHelper.getDayDao();
 		Habit habit = habitDao.queryForId(id+1);
 		
 		ForeignCollection<Day> days = habit.getDays();
@@ -291,7 +290,6 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 		try {
 			habits = habitDao.queryForAll();
 			for(Habit habit : habits){
-				Log.d("Edit", "adding question");
 				habitQuestions.add(habit.getName());
 			}
 		} catch (SQLException e) {
