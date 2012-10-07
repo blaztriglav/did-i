@@ -15,8 +15,11 @@ import si.modrajagoda.didi.database.DatabaseHelper;
 import si.modrajagoda.didi.database.Habit;
 import si.modrajagoda.didi.database.Day;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.SparseBooleanArray;
@@ -26,15 +29,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
-public class EditHabits extends FragmentActivity implements OnItemClickListener{
+public class EditHabits extends FragmentActivity implements OnItemClickListener, OnClickListener{
+	
+	private static final String MINUTES = "minutes";
+	private static final String HOURS = "hours";
 	
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> habitQuestions = null;
@@ -43,6 +52,10 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 	private TextView noHabits;
 	private ListView list;
 	private Habit habit;
+	private Button timePickerButton;
+	private SharedPreferences settings;
+	private int minutes;
+	private int hours;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +66,9 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 		
 		databaseHelper = getHelper();
 		habitQuestions = new ArrayList<String>(); 
+		settings = PreferenceManager.getDefaultSharedPreferences(this);
+		minutes = settings.getInt(MINUTES, 0);
+		hours = settings.getInt(HOURS, 21);
 		
 		noHabits = (TextView) findViewById(R.id.no_babits);
 		try {
@@ -134,6 +150,16 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 				}
 			}
 		});
+		
+		timePickerButton = (Button) findViewById(R.id.time_picker);
+		timePickerButton.setOnClickListener(this);
+		int minutes = settings.getInt(MINUTES, 0);
+		int hours = settings.getInt(HOURS, 22);
+		if(minutes < 10){
+			timePickerButton.setText(Integer.toString(hours)+":0"+Integer.toString(minutes));
+		} else {
+			timePickerButton.setText(Integer.toString(hours)+":"+Integer.toString(minutes));
+		}
 	}
 
 	private class CustomAdapter extends ArrayAdapter<String> {
@@ -312,5 +338,30 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.time_picker:
+			new TimePickerDialog(this, mTimeListener, hours, minutes, true).show();
+			break;
+		}
+	}
+	
+	private TimePickerDialog.OnTimeSetListener mTimeListener =
+		    new TimePickerDialog.OnTimeSetListener() {
+			@Override
+		        public void onTimeSet(TimePicker view, int hour, int minute) {
+					minutes = minute;
+					hours = hour;
+					if(minute < 10){
+						timePickerButton.setText(Integer.toString(hour)+":0"+Integer.toString(minute));
+					} else {
+						timePickerButton.setText(Integer.toString(hour)+":"+Integer.toString(minute));
+					}
+					settings.edit().putInt(MINUTES, minute).putInt(HOURS, hour).commit();
+		        }
+		    };
+
 	
 }
