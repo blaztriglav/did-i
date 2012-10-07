@@ -136,9 +136,12 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		int[] colors = new int[] {context.getResources().getColor(R.color.positive)};
 		String[] titles = new String[] { "Yes" };
 
+		//Get all the days entered so far for this question
 		habit = habits.get(question);
 		days = habit.getDays();
 
+		//Fill an array with the answers for those days (true, false) by iterating through all the days
+		
 		double[] answersArray = new double[days.size()];
 		int count = 0;
 		CloseableIterator<Day> daysIterator = days.closeableIterator();
@@ -161,46 +164,51 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 			e1.printStackTrace();
 		}
 
+		//Calculate the number of weeks entered for the habit so far (the chart will display yes/no's by week)
 		int numberOfWeeks = (days.size()/7) + 1;
 		Log.d("WEEKNUM", "Number of weeks: " + numberOfWeeks);
 
+		//Make array with the size of the number of weeks + 6 
+		//The +6 is to make the chart render properly, for some reason it needs those dummy values.
+		
 		double[] weeklyYesCount = new double[numberOfWeeks + 6];
 
+		//Get the amount of yes's per week, add it to the array
 		for(int i1 = 0; i1 < numberOfWeeks; i1++) {
 			int yesCount = 0;
-			Log.d("DOIRUN", "Yes count: " + yesCount);
 
 			for (int i2 = 0; i2 < 6; i2++) {
 				try {
 					if(answersArray[i2*(i1+1)]==1) {
 						yesCount = yesCount + 1;
-						Log.d("Yescount", "Yes count: " + yesCount);
 					}
 				} catch ( ArrayIndexOutOfBoundsException e ) {
-					Log.d("Error", "Array out of bounds");
 				}
 			}
 			weeklyYesCount[i1] = yesCount;
 		}
 
-		for(int i3 = 0; i3 < 5; i3++) {
-			weeklyYesCount[numberOfWeeks + i3]=0;
-		}
-
 		List<double[]> values = new ArrayList<double[]>();
-		
 		values.add(weeklyYesCount);
 		
-		
-
 		Log.d("ARRAYS", "Arrays: " + weeklyYesCount.length + " " + values.size());
 		Log.d("calc", "calc: " + (numberOfWeeks + 0.5));
+		
+		//Draw the chart. Every week is displayed as a separate column, for a maximum of 7.
+		//If there is data for more than 7 weeks, the last 7 are presented.
+		//This felt like a nice amount that gives you perspective on past performance
+		//and still keeps every week neatly visible.
+		
+		int numberOfWeeksOverSeven = 0;
+		if (numberOfWeeks>7) {
+			numberOfWeeksOverSeven = numberOfWeeks-7;
+		}
 		
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.chart);
 		XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
 		setChartSettings(renderer, 
 				"Week", 
-				0.5,
+				(numberOfWeeksOverSeven + 0.5),
 				(numberOfWeeks + 0.5), 
 				0, 
 				7);
