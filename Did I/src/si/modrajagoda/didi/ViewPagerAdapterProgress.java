@@ -136,7 +136,7 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		int[] colors = new int[] {context.getResources().getColor(R.color.positive)};
 		String[] titles = new String[] { "Yes" };
 
-		//Get all the days entered so far for this question
+		//Get all the days entered so far for this habit
 		habit = habits.get(question);
 		days = habit.getDays();
 

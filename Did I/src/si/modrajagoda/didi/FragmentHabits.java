@@ -89,22 +89,19 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 				habit = habits.get(i);
 				days = habit.getDays();
 				
-				Log.d("DAYSIZE", "Days:" + days.size());
-				
 				if(lastDayOfEntry != 0) {
 					
+					//If this is a newly added question, a day needs to be added either way
 					if(days.size()==0) {
 						day = new Day(habit, days.size()+1, false);
 						dayDao.create(day);
 					}
-					Log.d("I RAN 1", "Days:" + days.size());
 					if(currentDay - lastDayOfEntry > 0) {
 
 
 						for (int i2 = 0; i2 < (currentDay-lastDayOfEntry); i2++) {
 							day = new Day(habit, days.size()+1, false);
 							dayDao.create(day);
-							Log.d("I RAN 2", "Days:" + days.size());
 						}
 					}
 					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
@@ -114,7 +111,6 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 				else {
 					day = new Day(habit, days.size()+1, false);
 					dayDao.create(day);
-					Log.d("I RAN 3", "Days:" + days.size());
 					
 					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 				}

@@ -237,21 +237,5 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 			e.printStackTrace();
 		}
 		
-//		
-//		QueryBuilder<Habit, Habit> builder = habitDao.queryBuilder();
-//		Where where = builder.where();
-//		try {
-//			where.eq("day_number", days.size());
-//			where.and();
-//			where.eq(day.getHabit(), habit);
-//			day = dayDao.query(builder.prepare()).get(0);
-//			day.setDayAnswer(answer);
-//			dayDao.update(day);
-//			
-//			Log.d("DAY", "Value: " + day.getDayAnswer());
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-		
 	}
 }
