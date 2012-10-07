@@ -1,5 +1,6 @@
 package si.modrajagoda.didi;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +12,22 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
+
+import si.modrajagoda.didi.database.DatabaseHelper;
+import si.modrajagoda.didi.database.Day;
+import si.modrajagoda.didi.database.Habit;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -29,12 +40,26 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 	private final Context context;
 	private final int questionCount;
 	private final ArrayList<String> habitQuestions;
+	private List<Habit> habits;
+	private Habit habit;
+	private ForeignCollection<Day> days;
+	private Day day;
+	private DatabaseHelper databaseHelper = null;
 
-	public ViewPagerAdapterProgress(Context context, int questionCount, ArrayList<String> habitQuestions)
+	private Dao<Day, Integer> dayDao = null;
+
+	public ViewPagerAdapterProgress(Context context, int questionCount, ArrayList<String> habitQuestions, List<Habit> habits, DatabaseHelper databaseHelper)
 	{
 		this.context = context;
 		this.questionCount = questionCount;
 		this.habitQuestions = habitQuestions;
+		this.habits = habits;
+
+		try {
+			dayDao = databaseHelper.getDayDao();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -57,7 +82,7 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 			((ViewPager) pager).addView(v, 0);
 			return v;
 		case 1:
-			
+
 			v = inflater.inflate(viewPagerPage, null);
 			loadQuestion(v, 1);
 
@@ -84,7 +109,7 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 
 			((ViewPager) pager).addView(v, 0);
 			return v;
-			
+
 
 		default:
 			break;
@@ -95,8 +120,8 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		((ViewPager) pager).addView(v, 0);
 		return v;
 	}
-	
-	
+
+
 	private void loadQuestion(View view, int question) {
 		TextView textViewQuestion = (TextView) view.findViewById(R.id.text_view_question);
 		textViewQuestion.setText(Html.fromHtml(
@@ -107,20 +132,83 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		loadChart(view, question);
 	}
 	private void loadChart(View view, int question) {
-		int[] colors = new int[] {context.getResources().getColor(R.color.negative), context.getResources().getColor(R.color.positive)};
-		String[] titles = new String[] { "Yes", "No" };
-		List<double[]> values = new ArrayList<double[]>();
-		values.add(new double[] {7, 7, 7, 7, 7, 7, 7});
-		values.add(new double[] {6, 7, 6, 6, 5, 1, 2});
+		int[] colors = new int[] {context.getResources().getColor(R.color.positive)};
+		String[] titles = new String[] { "Yes" };
 
+		habit = habits.get(question);
+		days = habit.getDays();
+
+		double[] answersArray = new double[days.size()];
+		for(int i = 0; i < days.size(); i++) {
+
+			QueryBuilder<Day, Integer> builder = dayDao.queryBuilder();
+			Where<Day, Integer> where = builder.where();
+			try {
+				where.eq("day_number", i+1);
+				day = dayDao.query(builder.prepare()).get(0);
+				day.getDayAnswer();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch ( ArrayIndexOutOfBoundsException e ) {
+				Log.d("Error", "Array out of bounds");
+			}
+
+			if(day.getDayAnswer()==true) {
+				answersArray[i] = 1;
+			}
+			else if(day.getDayAnswer()==false) {
+				answersArray[i] = 0;
+			}
+
+		}
+
+		int numberOfWeeks = (days.size()/7) + 1;
+		Log.d("WEEKNUM", "Number of weeks: " + numberOfWeeks);
+
+		double[] weeklyYesCount = new double[numberOfWeeks];
+		double[] anArrayOfSevens = new double[numberOfWeeks];
+
+		for(int i1 = 0; i1 < numberOfWeeks; i1++) {
+			int yesCount = 0;
+			Log.d("DOIRUN", "Yes count: " + yesCount);
+
+			for (int i2 = 0; i2 < 6; i2++) {
+				try {
+					if(answersArray[i2*(i1+1)]==1) {
+						yesCount = yesCount + 1;
+						Log.d("Yescount", "Yes count: " + yesCount);
+					}
+				} catch ( ArrayIndexOutOfBoundsException e ) {
+					Log.d("Error", "Array out of bounds");
+				}
+			}
+			weeklyYesCount[i1] = yesCount;
+			anArrayOfSevens[i1] = 7;
+		}
+
+		
+
+		List<double[]> values = new ArrayList<double[]>();
+		
+//		List<double[]> values = new ArrayList<double[]>();
+////		values.add(new double[] {7, 7, 7, 7, 7, 7, 7});
+//		values.add(new double[] {6, 7, 6, 6, 5, 1, 2});
+
+//		values.add(anArrayOfSevens);
+		values.add(weeklyYesCount);
+		
+		
+
+		Log.d("ARRAYS", "Arrays: " + weeklyYesCount.length + " " + anArrayOfSevens.length + " " + values.size());
+		Log.d("calc", "calc: " + (numberOfWeeks + 0.5));
+		
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.chart);
 		XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
 		setChartSettings(renderer, "Week", 0.5,
-				7.5, 0, 7);
+				1.5, 0, 7);
 		renderer.getSeriesRendererAt(0).setDisplayChartValues(false);
-		renderer.getSeriesRendererAt(1).setDisplayChartValues(false);
 		renderer.setPanEnabled(false, false);
-		mChartView = ChartFactory.getBarChartView(context, buildBarDataset(titles, values), renderer, Type.STACKED);
+		mChartView = ChartFactory.getBarChartView(context, buildBarDataset(titles, values), renderer, Type.DEFAULT);
 		layout.addView(mChartView);
 
 	}
@@ -156,7 +244,7 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 		renderer.setZoomButtonsVisible(false);
 		renderer.setMarginsColor(Color.argb(0, 1, 1, 1));
-		renderer.setBackgroundColor(Color.argb(0, 1, 1, 1));
+		renderer.setBackgroundColor(context.getResources().getColor(R.color.negative));
 		renderer.setApplyBackgroundColor(true);
 		renderer.setMargins(new int[] {0,0,0,0});
 		int length = colors.length;

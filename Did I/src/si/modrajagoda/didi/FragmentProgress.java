@@ -32,6 +32,8 @@ public class FragmentProgress extends Fragment implements OnClickListener, OnPag
 	private int questionCount = 0;
 	private DatabaseHelper databaseHelper = null;
 	private Dao<Habit, Integer> habitDao = null;
+	
+	private List<Habit> habits; 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +45,7 @@ public class FragmentProgress extends Fragment implements OnClickListener, OnPag
 		habitQuestions = new ArrayList<String>();
 		try {
 			habitDao = databaseHelper.getHabitDao();
-			List<Habit> habits = habitDao.queryForAll();
+			habits = habitDao.queryForAll();
 			questionCount = habits.size();
 			for(Habit habit : habits){
 				habitQuestions.add(habit.getName());
@@ -79,7 +81,7 @@ public class FragmentProgress extends Fragment implements OnClickListener, OnPag
 		}
 
 		ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
-		ViewPagerAdapterProgress adapter = new ViewPagerAdapterProgress(getActivity(), questionCount, habitQuestions);
+		ViewPagerAdapterProgress adapter = new ViewPagerAdapterProgress(getActivity(), questionCount, habitQuestions, habits, databaseHelper);
 		pager.setAdapter(adapter);
 		pager.setOnPageChangeListener(this);
 		pager.setCurrentItem(0);
