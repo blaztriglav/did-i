@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.j256.ormlite.dao.CloseableIterable;
+import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -175,15 +177,15 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 			}
 			else if(v.getTag().equals("Q1")) {
 				answerQuestion(1, true);
-				viewPager.setCurrentItem(1); 
+				viewPager.setCurrentItem(2); 
 			}
 			else if(v.getTag().equals("Q2")) {
 				answerQuestion(2, true);
-				viewPager.setCurrentItem(2); 
+				viewPager.setCurrentItem(3); 
 			}
 			else if(v.getTag().equals("Q3")) {
 				answerQuestion(3, true);
-				viewPager.setCurrentItem(3); 
+				viewPager.setCurrentItem(4); 
 			}
 			else if(v.getTag().equals("Q4")) {
 				answerQuestion(4, true);
@@ -221,18 +223,35 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 		habit = habits.get(question);
 		days = habit.getDays();
 		
-		QueryBuilder<Day, Integer> builder = dayDao.queryBuilder();
-		Where<Day, Integer> where = builder.where();
+		CloseableIterator<Day> daysIterator = days.closeableIterator();
+		while(daysIterator.hasNext()) {
+			day = daysIterator.next();
+		}
+		
+		day.setDayAnswer(answer);
+		
 		try {
-			where.eq("day_number", days.size());
-			day = dayDao.query(builder.prepare()).get(0);
-			day.setDayAnswer(answer);
 			dayDao.update(day);
-			
-			Log.d("DAY", "Value: " + day.getDayAnswer());
+			daysIterator.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+//		
+//		QueryBuilder<Habit, Habit> builder = habitDao.queryBuilder();
+//		Where where = builder.where();
+//		try {
+//			where.eq("day_number", days.size());
+//			where.and();
+//			where.eq(day.getHabit(), habit);
+//			day = dayDao.query(builder.prepare()).get(0);
+//			day.setDayAnswer(answer);
+//			dayDao.update(day);
+//			
+//			Log.d("DAY", "Value: " + day.getDayAnswer());
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 }

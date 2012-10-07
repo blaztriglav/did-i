@@ -12,6 +12,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
+import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -139,27 +140,25 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		days = habit.getDays();
 
 		double[] answersArray = new double[days.size()];
-		for(int i = 0; i < days.size(); i++) {
-
-			QueryBuilder<Day, Integer> builder = dayDao.queryBuilder();
-			Where<Day, Integer> where = builder.where();
-			try {
-				where.eq("day_number", i+1);
-				day = dayDao.query(builder.prepare()).get(0);
-				day.getDayAnswer();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch ( ArrayIndexOutOfBoundsException e ) {
-				Log.d("Error", "Array out of bounds");
-			}
-
+		int count = 0;
+		CloseableIterator<Day> daysIterator = days.closeableIterator();
+		while(daysIterator.hasNext()) {
+			day = daysIterator.next();
+			
 			if(day.getDayAnswer()==true) {
-				answersArray[i] = 1;
+				answersArray[count] = 1;
 			}
 			else if(day.getDayAnswer()==false) {
-				answersArray[i] = 0;
+				answersArray[count] = 0;
 			}
-
+		
+			count = count + 1;
+		}
+		
+		try {
+			daysIterator.close();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
 
 		int numberOfWeeks = (days.size()/7) + 1;

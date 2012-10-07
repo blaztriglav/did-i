@@ -92,6 +92,11 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 				Log.d("DAYSIZE", "Days:" + days.size());
 				
 				if(lastDayOfEntry != 0) {
+					
+					if(days.size()==0) {
+						day = new Day(habit, days.size()+1, false);
+						dayDao.create(day);
+					}
 					Log.d("I RAN 1", "Days:" + days.size());
 					if(currentDay - lastDayOfEntry > 0) {
 
