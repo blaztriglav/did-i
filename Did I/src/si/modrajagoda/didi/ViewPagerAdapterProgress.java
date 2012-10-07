@@ -165,8 +165,7 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		int numberOfWeeks = (days.size()/7) + 1;
 		Log.d("WEEKNUM", "Number of weeks: " + numberOfWeeks);
 
-		double[] weeklyYesCount = new double[numberOfWeeks];
-		double[] anArrayOfSevens = new double[numberOfWeeks];
+		double[] weeklyYesCount = new double[numberOfWeeks + 6];
 
 		for(int i1 = 0; i1 < numberOfWeeks; i1++) {
 			int yesCount = 0;
@@ -183,32 +182,35 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 				}
 			}
 			weeklyYesCount[i1] = yesCount;
-			anArrayOfSevens[i1] = 7;
 		}
 
-		
+		for(int i3 = 0; i3 < 5; i3++) {
+			weeklyYesCount[numberOfWeeks + i3]=0;
+		}
 
 		List<double[]> values = new ArrayList<double[]>();
 		
-//		List<double[]> values = new ArrayList<double[]>();
-////		values.add(new double[] {7, 7, 7, 7, 7, 7, 7});
-//		values.add(new double[] {6, 7, 6, 6, 5, 1, 2});
-
-//		values.add(anArrayOfSevens);
 		values.add(weeklyYesCount);
 		
 		
 
-		Log.d("ARRAYS", "Arrays: " + weeklyYesCount.length + " " + anArrayOfSevens.length + " " + values.size());
+		Log.d("ARRAYS", "Arrays: " + weeklyYesCount.length + " " + values.size());
 		Log.d("calc", "calc: " + (numberOfWeeks + 0.5));
 		
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.chart);
 		XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-		setChartSettings(renderer, "Week", 0.5,
-				1.5, 0, 7);
-		renderer.getSeriesRendererAt(0).setDisplayChartValues(false);
-		renderer.setPanEnabled(false, false);
-		mChartView = ChartFactory.getBarChartView(context, buildBarDataset(titles, values), renderer, Type.DEFAULT);
+		setChartSettings(renderer, 
+				"Week", 
+				0.5,
+				(numberOfWeeks + 0.5), 
+				0, 
+				7);
+		
+		mChartView = ChartFactory.getBarChartView(context, 
+				buildBarDataset(titles, values), 
+				renderer, 
+				Type.DEFAULT);
+		
 		layout.addView(mChartView);
 
 	}
@@ -223,6 +225,13 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		renderer.setShowLegend(false);
 		renderer.setShowAxes(false);
 		renderer.setShowLabels(false);
+		renderer.getSeriesRendererAt(0).setDisplayChartValues(false);
+		renderer.setPanEnabled(false, false);
+		renderer.setZoomButtonsVisible(false);
+		renderer.setMarginsColor(Color.argb(0, 1, 1, 1));
+		renderer.setBackgroundColor(context.getResources().getColor(R.color.negative));
+		renderer.setApplyBackgroundColor(true);
+		renderer.setMargins(new int[] {0,0,0,0});
 	}
 
 	protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
@@ -242,11 +251,6 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 
 	protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
 		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		renderer.setZoomButtonsVisible(false);
-		renderer.setMarginsColor(Color.argb(0, 1, 1, 1));
-		renderer.setBackgroundColor(context.getResources().getColor(R.color.negative));
-		renderer.setApplyBackgroundColor(true);
-		renderer.setMargins(new int[] {0,0,0,0});
 		int length = colors.length;
 		for (int i = 0; i < length; i++) {
 			SimpleSeriesRenderer r = new SimpleSeriesRenderer();
