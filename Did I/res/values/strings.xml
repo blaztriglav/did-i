@@ -27,6 +27,7 @@
     <string name="dialog_edit_habit_title">Edit habit</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="ask_questions">Ask me these questions at</string>
     
     <!-- Content description -->
     

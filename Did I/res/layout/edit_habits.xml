@@ -5,29 +5,57 @@
     android:orientation="vertical" >
 
     <!-- Introduction -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_side"
         android:text="@string/edit_introduction"
-        android:textSize="@dimen/text_xlarge"
-		android:layout_margin="@dimen/margin_side"/>
-    
+        android:textSize="@dimen/text_xlarge" />
+
     <!-- Text when no habits set -->
-    <TextView 
+
+    <TextView
         android:id="@+id/no_babits"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_side"
         android:text="@string/no_habits"
-        android:visibility="gone"/>
-    
+        android:textSize="@dimen/text_medium"
+        android:visibility="gone" />
+
     <!-- List with habits -->
-	<ListView
-	    android:id="@android:id/list"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="@dimen/margin_side"
-	    android:layout_marginRight="@dimen/margin_side"
-	    android:layout_marginBottom="@dimen/margin_side"/>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_side"
+        android:layout_marginLeft="@dimen/margin_side"
+        android:layout_marginRight="@dimen/margin_side" />
+
+    <!-- Time picker -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_side"
+        android:layout_marginRight="@dimen/margin_side"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_height"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="@string/ask_questions"
+            android:textSize="@dimen/text_large" />
+
+        <Button
+            android:id="@+id/time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_height"
+            android:layout_weight="0"
+            android:textSize="@dimen/text_xlarge" />
+    </LinearLayout>
 
 </LinearLayout>

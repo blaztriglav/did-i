@@ -8,6 +8,8 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import si.modrajagoda.didi.database.DatabaseHelper;
 import si.modrajagoda.didi.database.Habit;
@@ -40,6 +42,7 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 	private Dao<Habit, Integer> habitDao = null;
 	private TextView noHabits;
 	private ListView list;
+	private Habit habit;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +114,6 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 								e.printStackTrace();
 							}
 							// Update list
-							adapter.remove(adapter.getItem(habit));
 							adapter.notifyDataSetChanged();
 							break;
 						}
@@ -200,13 +202,8 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 			finish();
 			break;
 		case R.id.menu_new:
-			List<Habit> habits = null;
-			try {
-				habits = habitDao.queryForAll();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			if(habits.size() < 5){
+			if(habitQuestions.size() < 5){
+				habit = new Habit(habitQuestions.size()+1, "");
 				showDialog("");
 			}
 			break;
@@ -219,15 +216,34 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 		Dao<Day, Integer> dayDao = databaseHelper.getDayDao();
 		Habit habit = habitDao.queryForId(id+1);
 		
+		// Delete days for this habit
 		ForeignCollection<Day> days = habit.getDays();
-		CloseableIterator<Day> dayIterator = days.closeableIterator();
-		while(dayIterator.hasNext()){
-			Day day = dayIterator.next();
-			dayDao.delete(day);
-		} 
-		dayIterator.close();
+		if(days != null){
+			CloseableIterator<Day> dayIterator = days.closeableIterator();
+			while(dayIterator.hasNext()){
+				Day day = dayIterator.next();
+				dayDao.delete(day);
+			} 
+			dayIterator.close();
+		}
 		
+		// Delete habit
 		habitDao.delete(habit);
+		
+		// Update table
+		getHabitQuestions();
+		for(int i = 0; i < habitQuestions.size(); i++){
+			String question = habitQuestions.get(i);
+			QueryBuilder<Habit, Integer> builder = habitDao.queryBuilder();
+			Where<Habit, Integer> where = builder.where();
+			where.eq("name", question);
+			List<Habit> list = habitDao.query(builder.prepare());
+			if(list.size() == 1){
+				Habit habit1 = list.get(0);
+				habitDao.updateId(habit1, i);
+			}
+		}
+		
 	}
 	
 	@Override
@@ -250,7 +266,7 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		try {
-			Habit habit = habitDao.queryForId(position+1);
+			habit = habitDao.queryForId(position+1);
 			showDialog(habit.getName());
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -264,7 +280,7 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener{
 	}
 
 	public void doPositiveClick(String habitName) { 
-		Habit habit = new Habit(habitName);
+		habit.setName(habitName);
 		try {
 			habitDao.createOrUpdate(habit);
 		} catch (SQLException e) {
