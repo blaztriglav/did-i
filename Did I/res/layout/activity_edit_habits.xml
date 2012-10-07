@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:gravity="center_horizontal" >
 
     <!-- Introduction -->
 
     <TextView
+        android:id="@+id/text_view_edit_introduction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_side"
@@ -16,10 +17,11 @@
     <!-- Text when no habits set -->
 
     <TextView
-        android:id="@+id/no_babits"
+        android:id="@+id/no_habits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_side"
+        android:layout_below="@id/text_view_edit_introduction"
         android:text="@string/no_habits"
         android:textSize="@dimen/text_medium"
         android:visibility="gone" />
@@ -30,6 +32,7 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_edit_introduction"
         android:layout_marginBottom="@dimen/margin_side"
         android:layout_marginLeft="@dimen/margin_side"
         android:layout_marginRight="@dimen/margin_side" />
@@ -38,24 +41,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@android:id/list"
         android:layout_marginLeft="@dimen/margin_side"
         android:layout_marginRight="@dimen/margin_side"
         android:orientation="horizontal" >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/item_height"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:clickable="true"
+            android:layout_weight="2"
             android:text="@string/ask_questions"
             android:textSize="@dimen/text_large" />
 
         <Button
             android:id="@+id/time_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/item_height"
-            android:layout_weight="0"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:textSize="@dimen/text_xlarge" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

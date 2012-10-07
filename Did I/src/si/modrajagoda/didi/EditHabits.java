@@ -61,7 +61,7 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle(R.string.edit_habits);
-		setContentView(R.layout.edit_habits);
+		setContentView(R.layout.activity_edit_habits);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		databaseHelper = getHelper();
@@ -70,24 +70,19 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 		minutes = settings.getInt(MINUTES, 0);
 		hours = settings.getInt(HOURS, 21);
 		
-		noHabits = (TextView) findViewById(R.id.no_babits);
+		noHabits = (TextView) findViewById(R.id.no_habits);
 		try {
 			habitDao = databaseHelper.getHabitDao();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		try {
 			List<Habit> habits = habitDao.queryForAll();
 			if(habits.size() > 0){
 				getHabitQuestions();
 			} else {
 				noHabits.setVisibility(View.VISIBLE);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
-
+		
 		list = (ListView) findViewById(android.R.id.list);
 		adapter = new CustomAdapter(this, R.layout.list_item_habit, habitQuestions);
 		list.setAdapter(adapter);

@@ -124,7 +124,7 @@ public class FragmentProgress extends Fragment implements OnClickListener, OnPag
 			imageViewIndicator = (ImageView) view.findViewById(viewIndicators[page-1]);
 			imageViewIndicator.setImageResource(R.drawable.indicator_neutral);
 		}
-		if(page < viewIndicators.length) {
+		if(page < (viewIndicators.length)-1) {
 			imageViewIndicator = (ImageView) view.findViewById(viewIndicators[page+1]);
 			imageViewIndicator.setImageResource(R.drawable.indicator_neutral);
 		}
