@@ -179,13 +179,15 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 
 			for (int i2 = 0; i2 < 6; i2++) {
 				try {
-					if(answersArray[i2*(i1+1)]==1) {
+					if(answersArray[i2 + (7*i1)]==1) {
 						yesCount = yesCount + 1;
 					}
 				} catch ( ArrayIndexOutOfBoundsException e ) {
 				}
 			}
 			weeklyYesCount[i1] = yesCount;
+			
+			Log.d("WEEKYES", "Number of yeses in week " + i1 + ": " + yesCount);
 		}
 
 		List<double[]> values = new ArrayList<double[]>();

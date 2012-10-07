@@ -88,9 +88,9 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 
 				habit = habits.get(i);
 				days = habit.getDays();
-				
+
 				if(lastDayOfEntry != 0) {
-					
+
 					//If this is a newly added question, a day needs to be added either way
 					if(days.size()==0) {
 						day = new Day(habit, days.size()+1, false);
@@ -107,11 +107,11 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 
 				}
-				
+
 				else {
 					day = new Day(habit, days.size()+1, false);
 					dayDao.create(day);
-					
+
 					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 				}
 			}
@@ -146,6 +146,8 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 			break;
 		}
 
+//		loadDummyValues();
+
 		ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
 		ViewPagerAdapterHabit adapter = new ViewPagerAdapterHabit(getActivity(), questionCount, habitQuestions, habits, databaseHelper);
 		pager.setAdapter(adapter);
@@ -154,6 +156,24 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 
 
 		return view;
+	}
+
+	private void loadDummyValues() {
+
+		try {
+			dayDao = databaseHelper.getDayDao();
+			habit = habits.get(0);
+
+			day = new Day(habit, days.size()+1, (Math.random() < 0.5));
+			dayDao.create(day);
+			days = habit.getDays();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+
 	}
 
 	@Override
