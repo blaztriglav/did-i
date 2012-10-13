@@ -14,13 +14,11 @@
     <string name="question_mark">\?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="no_habits">You haven\'t entered any habits yet!</string>
+    <string name="no_habits">Your habit list is empty. Press the pencil icon in the upper right corner to edit your habits!</string>
 
     <!-- Edit screen -->
     <string name="edit_habits">Edit habits</string>
-    <string name="edit_introduction">Establish new habits by asking yourself a simple question every day:</string>
-    <string name="add_qestions">Add your questions.</string>
-    <string name="enter_habit">enter a new habit?</string>
+    <string name="enter_habit">enter a new habit</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_new">New</string>
@@ -28,7 +26,8 @@
     <string name="dialog_edit_habit_title">Did I…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="ask_questions">Ask me these questions at</string>
+    <string name="daily_report">Daily report at</string>
+    <string name="edit_no_habits">Add a habit by pressing the plus icon in the upper right corner.</string>
 
     <!-- Content description -->
 

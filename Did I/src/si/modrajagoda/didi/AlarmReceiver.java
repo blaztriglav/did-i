@@ -15,9 +15,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     	
     	NotificationCompat.Builder mBuilder =
     	        new NotificationCompat.Builder(context)
-    	        .setSmallIcon(android.R.drawable.stat_sys_warning)
+    	        .setSmallIcon(R.drawable.notification)
     	        .setContentTitle("Did I?")
-    	        .setContentText("Time to report!").setAutoCancel(true);
+    	        .setContentText("Time for the daily report!").setAutoCancel(true);
     	
     	// Creates an explicit intent for an Activity in your app
     	Intent launchAppIntent = new Intent(context, Main.class);

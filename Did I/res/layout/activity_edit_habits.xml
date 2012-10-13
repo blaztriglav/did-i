@@ -15,10 +15,13 @@
 
         <TextView
             android:id="@+id/no_habits"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_habits"
+            android:text="@string/edit_no_habits"
             android:textSize="@dimen/text_medium"
+            android:layout_gravity="center_horizontal"
+            android:drawablePadding="3dp"
+            android:drawableRight="@drawable/ic_new_holo_light"
             android:visibility="gone" />
 
         <!-- List with habits -->
@@ -44,20 +47,20 @@
         android:layout_below="@id/linear_layout_edit"
         android:layout_marginLeft="@dimen/margin_side"
         android:layout_marginRight="@dimen/margin_side"
-        android:layout_marginTop="@dimen/margin_side"
         android:orientation="horizontal" >
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:clickable="true"
-            android:text="@string/ask_questions"
+            android:layout_marginLeft="8dp"
+            android:text="@string/daily_report"
             android:textSize="@dimen/text_large" />
 
         <Button
             android:id="@+id/time_picker"
             android:layout_width="0dp"
+            android:layout_marginRight="8dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="@dimen/text_xlarge" />
