@@ -7,8 +7,7 @@ Did I? is a habit tracking app for Android 4.0+ which asks you a simple question
 
 
 Potentially frequently asked questions
-============
-
+------------
 * 	What's different about this habit tracking app compared to all the others?
 
 	Not much, honestly. I would even say the app is heavily limited compared to the competition. I just wanted an app that tracks habits exactly the way I want it to. And it's fun making my own tools.
@@ -23,17 +22,17 @@ Potentially frequently asked questions
 
 * 	Why only Android 4.0+?
 
-	Laziness for now. Considering how simple the app is, it shouldn't be too hard porting it to 2.2 or 2.3+ with ActionBarSherlock.
+Laziness for now. Considering how simple the app is, it shouldn't be too hard porting it to 2.2 or 2.3+ with ActionBarSherlock.
 
 * 	This code is something else.
 
-	I started coding/copy-pasting from Google and StackOverflow a year ago, so the code quality leaves a lot to be desired. If anyone wishes to demonstrate how a real programmer would code this, please do, as that would be an immense learning opportunity for me.
+I started coding/copy-pasting from Google and StackOverflow a year ago, so the code quality leaves a lot to be desired. If anyone wishes to demonstrate how a real programmer would code this, please do, as that would be an immense learning opportunity for me.
 
-	The parts that aren't that strange in the code (namely the database setup and large parts of the EditHabits activity), are from my friend @nejctomsic, who has patiently helped me out, and managed to control his temper while trying to figure out what the hell I am doing in the code.
+The parts that aren't that strange in the code (namely the database setup and large parts of the EditHabits activity), are from my friend @nejctomsic, who has patiently helped me out, and managed to control his temper while trying to figure out what the hell I am doing in the code.
 
 * 	Will this app be developed further?
 
-	Minor features will get added in the future, such as goals per habit and weekly report cards. Generally though, it's supposed to fulfill one specific goal for me, to keep myself accountable daily for the habits I want to establish, and for that purpose it's pretty much complete.
+Minor features will get added in the future, such as goals per habit and weekly report cards. Generally though, it's supposed to fulfill one specific goal for me, to keep myself accountable daily for the habits I want to establish, and for that purpose it's pretty much complete.
 
-	It is open source, so anyone who wants to take it and make it better is welcome to do so!
+It is open source, so anyone who wants to take it and make it better is welcome to do so!
 
