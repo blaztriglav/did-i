@@ -5,32 +5,33 @@
     <string name="title_progress">Progress</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">Did I?</string>
-    
+
     <!-- Habits and progress screen -->
-    
+
     <string name="did_i">Did I</string>
+    <string name="did_i_2">Did I…</string>
     <string name="add_a_habit">add a habit</string>
     <string name="question_mark">\?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="no_habits">You haven\'t entered any habits yet!</string>
-    
+
     <!-- Edit screen -->
     <string name="edit_habits">Edit habits</string>
     <string name="edit_introduction">Establish new habits by asking yourself a simple question every day:</string>
     <string name="add_qestions">Add your questions.</string>
-    <string name="enter_habit">enter your habit</string>
+    <string name="enter_habit">enter a new habit?</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_new">New</string>
     <string name="selected_items">Selected items</string>
-    <string name="dialog_edit_habit_title">Edit habit</string>
+    <string name="dialog_edit_habit_title">Did I…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="ask_questions">Ask me these questions at</string>
-    
+
     <!-- Content description -->
-    
+
     <string name="indicator_description">Indicator which represents a habit question, changes color based on answer of question (green for yes, red for no, grey for unanswered)</string>
     <string name="indicator_progress_description">Indicator which represents a habit question</string>
 

@@ -10,6 +10,7 @@
         android:id="@+id/question_number"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="@dimen/margin_side"
         android:layout_weight="0"
         android:gravity="center_vertical"
@@ -47,6 +48,7 @@
         android:layout_weight="0"
         android:gravity="center_vertical"
         android:text="@string/question_mark"
+        android:layout_marginRight="8dp"
         android:textSize="@dimen/text_large"/>
 
 </LinearLayout>

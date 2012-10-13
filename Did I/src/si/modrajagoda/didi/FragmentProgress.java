@@ -27,12 +27,12 @@ public class FragmentProgress extends Fragment implements OnClickListener, OnPag
 			R.id.image_view_indicator_3, R.id.image_view_indicator_4, R.id.image_view_indicator_5};
 
 	View view;
-	
+
 	private ArrayList<String> habitQuestions = null;
 	private int questionCount = 0;
 	private DatabaseHelper databaseHelper = null;
 	private Dao<Habit, Integer> habitDao = null;
-	
+
 	private List<Habit> habits; 
 
 	@Override
@@ -40,6 +40,18 @@ public class FragmentProgress extends Fragment implements OnClickListener, OnPag
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_progress, container, false);
 
+		loadUI();
+
+		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		loadUI();
+	}
+
+	private void loadUI() {
 		// Get all the habits from the database
 		databaseHelper = getHelper();
 		habitQuestions = new ArrayList<String>();
@@ -86,7 +98,7 @@ public class FragmentProgress extends Fragment implements OnClickListener, OnPag
 		pager.setOnPageChangeListener(this);
 		pager.setCurrentItem(0);
 
-		return view;
+
 	}
 
 

@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<EditText xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/text"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:inputType="text"
-    android:hint="@string/enter_habit"/>
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <EditText
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_habit"
+        android:inputType="text"
+        android:layout_weight="9"/>
+    <TextView 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/question_mark"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/text_large"
+        android:layout_weight="1"/>
+
+</LinearLayout>

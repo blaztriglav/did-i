@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 public class DialogEditHabit extends DialogFragment {
 	
@@ -26,9 +27,10 @@ public class DialogEditHabit extends DialogFragment {
 	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	        
 	        LayoutInflater li = LayoutInflater.from(getActivity());
-	        final EditText editText = (EditText) li.inflate(R.layout.dialog_edit, null);
+	        final LinearLayout ll = (LinearLayout) li.inflate(R.layout.dialog_edit, null);
+	        final EditText editText = (EditText) ll.findViewById(R.id.text) ;
 	        editText.setText(habitName);
-	        builder.setView(editText);
+	        builder.setView(ll);
 
 	        return builder
 	                .setTitle(R.string.dialog_edit_habit_title)

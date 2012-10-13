@@ -18,6 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     	        .setSmallIcon(android.R.drawable.stat_sys_warning)
     	        .setContentTitle("Did I?")
     	        .setContentText("Time to report!").setAutoCancel(true);
+    	
     	// Creates an explicit intent for an Activity in your app
     	Intent launchAppIntent = new Intent(context, Main.class);
 

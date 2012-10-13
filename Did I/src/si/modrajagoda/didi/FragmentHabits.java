@@ -58,6 +58,19 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_habits, container, false);
 
+		loadUI();
+
+		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		loadUI();
+	}
+
+
+	private void loadUI() {
 		// Get all the habits from the database
 		databaseHelper = getHelper();
 		habitQuestions = new ArrayList<String>();
@@ -146,7 +159,7 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 			break;
 		}
 
-//		loadDummyValues();
+		//	loadDummyValues();
 
 		ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
 		ViewPagerAdapterHabit adapter = new ViewPagerAdapterHabit(getActivity(), questionCount, habitQuestions, habits, databaseHelper);
@@ -154,8 +167,6 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 		pager.setOnPageChangeListener(this);
 		pager.setCurrentItem(0);
 
-
-		return view;
 	}
 
 	private void loadDummyValues() {

@@ -4,61 +4,62 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal" >
 
-    <!-- Introduction -->
-
-    <TextView
-        android:id="@+id/text_view_edit_introduction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_side"
-        android:text="@string/edit_introduction"
-        android:textSize="@dimen/text_xlarge" />
-
     <!-- Text when no habits set -->
 
-    <TextView
-        android:id="@+id/no_habits"
+    <LinearLayout
+        android:id="@+id/linear_layout_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_side"
-        android:layout_below="@id/text_view_edit_introduction"
-        android:text="@string/no_habits"
-        android:textSize="@dimen/text_medium"
-        android:visibility="gone" />
+        android:orientation="vertical" >
 
-    <!-- List with habits -->
+        <TextView
+            android:id="@+id/no_habits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_habits"
+            android:textSize="@dimen/text_medium"
+            android:visibility="gone" />
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_edit_introduction"
-        android:layout_marginBottom="@dimen/margin_side"
-        android:layout_marginLeft="@dimen/margin_side"
-        android:layout_marginRight="@dimen/margin_side" />
+        <!-- List with habits -->
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <View
+            android:id="@+id/bottom_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
 
     <!-- Time picker -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@android:id/list"
+        android:layout_below="@id/linear_layout_edit"
         android:layout_marginLeft="@dimen/margin_side"
         android:layout_marginRight="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
         android:orientation="horizontal" >
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clickable="true"
             android:layout_weight="2"
+            android:clickable="true"
             android:text="@string/ask_questions"
             android:textSize="@dimen/text_large" />
 
         <Button
             android:id="@+id/time_picker"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="@dimen/text_xlarge" />
     </LinearLayout>
 

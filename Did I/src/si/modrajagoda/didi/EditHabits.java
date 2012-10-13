@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ListIterator;
 
 import si.modrajagoda.didi.database.DatabaseHelper;
 import si.modrajagoda.didi.database.Day;
 import si.modrajagoda.didi.database.Habit;
+import android.R.color;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -19,7 +21,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,13 +37,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
 
 public class EditHabits extends FragmentActivity implements OnItemClickListener, OnClickListener{
 
@@ -55,11 +55,16 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 	private Dao<Habit, Integer> habitDao = null;
 	private TextView noHabits;
 	private ListView list;
+	private List<Habit> habits;
 	private Habit habit;
+	private Habit lastHabit;
 	private Button timePickerButton;
 	private SharedPreferences settings;
 	private int minutes;
 	private int hours;
+	private ArrayList<Habit> habitsToDelete;
+
+	private ForeignCollection<Day> days;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,21 +78,32 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		minutes = settings.getInt(MINUTES, 0);
 		hours = settings.getInt(HOURS, 21);
+		habitsToDelete = new ArrayList<Habit>();
 
+		loadUI();
+
+	}
+
+	private void loadUI() {
 		noHabits = (TextView) findViewById(R.id.no_habits);
+		View bottomDivider = findViewById(R.id.bottom_divider);
+		list = (ListView) findViewById(android.R.id.list);
+
 		try {
 			habitDao = databaseHelper.getHabitDao();
-			List<Habit> habits = habitDao.queryForAll();
+			habits = habitDao.queryForAll();
 			if(habits.size() > 0){
 				getHabitQuestions();
 			} else {
 				noHabits.setVisibility(View.VISIBLE);
+				list.setVisibility(View.GONE);
+				bottomDivider.setVisibility(View.GONE);
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 
-		list = (ListView) findViewById(android.R.id.list);
+
 		adapter = new CustomAdapter(this, R.layout.list_item_habit, habitQuestions);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(this);
@@ -117,21 +133,18 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 
 			@Override
 			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-				SparseBooleanArray checkedItems = list.getCheckedItemPositions();
-				for (int i = 0; i < checkedItems.size(); i++) {
-					if(checkedItems.valueAt(i)){
-						int habit = checkedItems.keyAt(i);
-						switch (item.getItemId()) {
-						case R.id.menu_delete:
-							try {
-								deleteHabit(habit);
-							} catch (SQLException e) {
-								e.printStackTrace();
-							}
-							// Update list
-							adapter.notifyDataSetChanged();
-							break;
+				//				SparseBooleanArray checkedItems = list.getCheckedItemPositions();
+				for (int i = 0; i < habitsToDelete.size(); i++) {
+					switch (item.getItemId()) {
+					case R.id.menu_delete:
+						try {
+							deleteHabit(habitsToDelete.get(i));
+						} catch (SQLException e) {
+							e.printStackTrace();
 						}
+						// Update list
+						adapter.notifyDataSetChanged();
+						break;
 					}
 				}
 
@@ -145,7 +158,13 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 				mode.setTitle(getString(R.string.selected_items)+" "+
 						Integer.toString(list.getCheckedItemCount()));
 				if(checked){
-					// TODO set background
+					Log.d("DURR", "Habeets: " + habits.size() + " pozish: " + position + " habit at zeru " + habits.get(0).getName());
+					habitsToDelete.add(habits.get(position));
+					list.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.positive));
+				}
+				if(!checked){
+					habitsToDelete.remove(habits.get(position));
+					list.getChildAt(position).setBackgroundColor(color.transparent);
 				}
 			}
 		});
@@ -159,6 +178,7 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 		} else {
 			timePickerButton.setText(Integer.toString(hours)+":"+Integer.toString(minutes));
 		}
+
 	}
 
 	private class CustomAdapter extends ArrayAdapter<String> {
@@ -228,8 +248,25 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 			break;
 		case R.id.menu_new:
 			if(habitQuestions.size() < 5){
-				habit = new Habit(habitQuestions.size()+1, "");
+
+				if(habits.isEmpty()) {
+					habit = new Habit(0, "");
+				}
+
+				else {
+
+					ListIterator<Habit> habitIterator = habits.listIterator();
+					while(habitIterator.hasNext()){
+						lastHabit = habitIterator.next();
+					}
+
+					habit = new Habit(lastHabit.getID()+1, "");
+				}
+
 				showDialog("");
+			}
+			else {
+				Toast.makeText(this, "Easy there, tiger. 5 habits is the limit.", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -237,12 +274,12 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void deleteHabit(int id) throws SQLException{
+	private void deleteHabit(Habit habitToDelete) throws SQLException{
 		Dao<Day, Integer> dayDao = databaseHelper.getDayDao();
-		Habit habit = habitDao.queryForId(id+1);
+		habit = habitToDelete;
 
 		// Delete days for this habit
-		ForeignCollection<Day> days = habit.getDays();
+		days = habit.getDays();
 		if(days != null){
 			CloseableIterator<Day> dayIterator = days.closeableIterator();
 			while(dayIterator.hasNext()){
@@ -256,18 +293,8 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 		habitDao.delete(habit);
 
 		// Update table
-		getHabitQuestions();
-		for(int i = 0; i < habitQuestions.size(); i++){
-			String question = habitQuestions.get(i);
-			QueryBuilder<Habit, Integer> builder = habitDao.queryBuilder();
-			Where<Habit, Integer> where = builder.where();
-			where.eq("name", question);
-			List<Habit> list = habitDao.query(builder.prepare());
-			if(list.size() == 1){
-				Habit habit1 = list.get(0);
-				habitDao.updateId(habit1, i);
-			}
-		}
+		loadUI();
+
 
 	}
 
@@ -290,12 +317,8 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		try {
-			habit = habitDao.queryForId(position+1);
-			showDialog(habit.getName());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		habit = habits.get(position);
+		showDialog(habit.getName());
 	}
 
 
@@ -313,19 +336,14 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 		}
 
 		// Update list
-		adapter.clear();
-		getHabitQuestions();
-		adapter.notifyDataSetChanged();
-
-		// Hide no habits text if needed
-		if(habitQuestions.size() > 0){
-			noHabits.setVisibility(View.GONE);
-		} else {
-			noHabits.setVisibility(View.VISIBLE);
-		}
+		loadUI();
 	}
 
 	private void getHabitQuestions(){
+		noHabits.setVisibility(View.GONE);
+		View bottomDivider = findViewById(R.id.bottom_divider);
+		bottomDivider.setVisibility(View.VISIBLE);
+		list.setVisibility(View.VISIBLE);
 		habitQuestions.clear();
 		List<Habit> habits;
 		try {
@@ -360,11 +378,14 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 			}
 			settings.edit().putInt(MINUTES, minute).putInt(HOURS, hour).commit();
 
+
 			setRecurringAlarm(EditHabits.this, hour, minute);
 
 		}
 	};
 
+	//Set up a recurring alarm to fire a notification for the user (to fill our answers for the day)
+	//Will fire every day at the specified time.
 	private void setRecurringAlarm(Context context, int hour, int minute) {
 
 		AlarmManager alarms = (AlarmManager) getSystemService(
@@ -378,17 +399,8 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 		PendingIntent recurringAlarm = PendingIntent.getBroadcast(context,
 				0, notification, PendingIntent.FLAG_CANCEL_CURRENT);
 
-		try {
-			alarms.cancel(recurringAlarm);
-		} catch (Exception e) {
-			Log.e("DURR", "AlarmManager update was not canceled. " + e.toString());
-		}
-
-
 		alarms.setRepeating(AlarmManager.RTC, reportTime.getTimeInMillis(),
 				AlarmManager.INTERVAL_DAY, recurringAlarm);
-
-		Log.d("ALARMTIEM", "This da alarm time: " + reportTime.getTimeInMillis() + " | This da rull time: " + System.currentTimeMillis());
 
 	}
 }
