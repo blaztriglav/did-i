@@ -14,11 +14,11 @@ Potentially frequently asked questions
 
 * 	Can you list any interesting features?
 
-- Notification to answer your habit questions every day at a specific time, which you cannot turn off
-- No way to skip or edit a day. If you do not answer the questions (for example "Did I exercise?"), the app will answer them for you, negatively, for every day that you haven't answered.
-- Limit to 5 habits (might make this 3, depending on how I do with 5 at once)
-- Charts!
-- Nothing else.
+Notification to answer your habit questions every day at a specific time, which you cannot turn off
+No way to skip or edit a day. If you do not answer the questions (for example "Did I exercise?"), the app will answer them for you, negatively, for every day that you haven't answered.
+Limit to 5 habits (might make this 3, depending on how I do with 5 at once)
+Charts!
+Nothing else.
 
 * 	Why only Android 4.0+?
 
