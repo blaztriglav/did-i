@@ -141,7 +141,6 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		days = habit.getDays();
 
 		//Fill an array with the answers for those days (true, false) by iterating through all the days
-		
 		double[] answersArray = new double[days.size()];
 		int count = 0;
 		CloseableIterator<Day> daysIterator = days.closeableIterator();
@@ -165,11 +164,12 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		}
 
 		//Calculate the number of weeks entered for the habit so far (the chart will display yes/no's by week)
-		int numberOfWeeks = (days.size()/7) + 1;
-		Log.d("WEEKNUM", "Number of weeks: " + numberOfWeeks);
+		//The days()size - 1 is so we get the proper week count (7 days comes out to 2 weeks without this). Good code TM.
+
+		int numberOfWeeks = ((days.size()- 1)/7)+ 1;
 
 		//Make array with the size of the number of weeks + 6 
-		//The +6 is to make the chart render properly, for some reason it needs those dummy values.
+		//The +6 is to make the chart render properly, for some reason it needs those dummy values. Good code TM.
 		
 		double[] weeklyYesCount = new double[numberOfWeeks + 6];
 
@@ -177,8 +177,9 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 		for(int i1 = 0; i1 < numberOfWeeks; i1++) {
 			int yesCount = 0;
 
-			for (int i2 = 0; i2 < 6; i2++) {
+			for (int i2 = 0; i2 < 7; i2++) {
 				try {
+					
 					if(answersArray[i2 + (7*i1)]==1) {
 						yesCount = yesCount + 1;
 					}
@@ -187,14 +188,10 @@ public class ViewPagerAdapterProgress extends PagerAdapter {
 			}
 			weeklyYesCount[i1] = yesCount;
 			
-			Log.d("WEEKYES", "Number of yeses in week " + i1 + ": " + yesCount);
 		}
 
 		List<double[]> values = new ArrayList<double[]>();
 		values.add(weeklyYesCount);
-		
-		Log.d("ARRAYS", "Arrays: " + weeklyYesCount.length + " " + values.size());
-		Log.d("calc", "calc: " + (numberOfWeeks + 0.5));
 		
 		//Draw the chart. Every week is displayed as a separate column, for a maximum of 7.
 		//If there is data for more than 7 weeks, the last 7 are presented.
