@@ -10,14 +10,18 @@ Potentially frequently asked questions
 ------------
 * 	What's different about this habit tracking app compared to all the others?
 
-	Not much, honestly. I would even say the app is heavily limited compared to the competition. I just wanted an app that tracks habits exactly the way I want it to. And it's fun making my own tools.
+Not much, honestly. I would even say the app is heavily limited compared to the competition. I just wanted an app that tracks habits exactly the way I want it to. And it's fun making my own tools.
 
 * 	Can you list any interesting features?
 
-Notification to answer your habit questions every day at a specific time, which you cannot turn off
+Notification to answer your habit questions every day at a specific time, which you cannot turn off.
+
 No way to skip or edit a day. If you do not answer the questions (for example "Did I exercise?"), the app will answer them for you, negatively, for every day that you haven't answered.
-Limit to 5 habits (might make this 3, depending on how I do with 5 at once)
+
+Limit to 5 habits (might make this 3, depending on how I do with 5 at once).
+
 Charts!
+
 Nothing else.
 
 * 	Why only Android 4.0+?
