@@ -58,14 +58,13 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_habits, container, false);
 
-		loadUI();
-
 		return view;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.d("IRAN", "RAN SO FAR AWAY");
 		loadUI();
 	}
 
@@ -110,7 +109,6 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 						dayDao.create(day);
 					}
 					if(currentDay - lastDayOfEntry > 0) {
-
 
 						for (int i2 = 0; i2 < (currentDay-lastDayOfEntry); i2++) {
 							day = new Day(habit, days.size()+1, false);

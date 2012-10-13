@@ -158,7 +158,6 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 				mode.setTitle(getString(R.string.selected_items)+" "+
 						Integer.toString(list.getCheckedItemCount()));
 				if(checked){
-					Log.d("DURR", "Habeets: " + habits.size() + " pozish: " + position + " habit at zeru " + habits.get(0).getName());
 					habitsToDelete.add(habits.get(position));
 					list.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.positive));
 				}

@@ -28,13 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_side"
             android:layout_marginRight="@dimen/margin_side"
-            android:layout_marginTop="100dp"
             android:gravity="center_horizontal"
             android:text="@string/no_habits"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <android.support.v4.view.ViewPager
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/margin_from_indicator"
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >

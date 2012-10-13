@@ -20,8 +20,6 @@
             android:text="@string/edit_no_habits"
             android:textSize="@dimen/text_medium"
             android:layout_gravity="center_horizontal"
-            android:drawablePadding="3dp"
-            android:drawableRight="@drawable/ic_new_holo_light"
             android:visibility="gone" />
 
         <!-- List with habits -->
