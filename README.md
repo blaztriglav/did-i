@@ -1,7 +1,7 @@
 Did I? - a habit tracker that keeps you accountable
 ============
 
-[Google Play Download Link](http://play.google.com)
+[Google Play Download Link](https://play.google.com/store/apps/details?id=si.modrajagoda.didi)
 
 Did I? is a habit tracking app for Android 4.0+ which asks you a simple question about your habit every day: "Did I?" Enter the habits you want to build, and what time of day you want the app to ask you about them, and that's that.
 
@@ -32,7 +32,7 @@ Laziness for now. Considering how simple the app is, it shouldn't be too hard po
 
 I started coding/copy-pasting from Google and StackOverflow a year ago, so the code quality leaves a lot to be desired. If anyone wishes to demonstrate how a real programmer would code this, please do, as that would be an immense learning opportunity for me.
 
-The parts that aren't that strange in the code (namely the database setup and large parts of the EditHabits activity), are from my friend @nejctomsic, who has patiently helped me out, and managed to control his temper while trying to figure out what the hell I am doing in the code.
+The parts that aren't that strange in the code (namely the database setup and large parts of the EditHabits activity), are from my friend Nejc Tomsic (@Nordak), who has patiently helped me out, and managed to control his temper while trying to figure out what the hell I am doing in the code.
 
 * 	Will this app be developed further?
 
