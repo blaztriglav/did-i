@@ -46,8 +46,8 @@ Third-party libraries
 The following dependencies are bundled with Did I?, but are under terms of a separate license:
 
 *	[AChartEngine](http://code.google.com/p/achartengine/),  Apache License 2.0
-*	[ORMLite for Android](hhttp://sourceforge.net/projects/ormlite/), public domain
-*	[Android Support Library](hhttp://developer.android.com/tools/extras/support-library.html), Apache License 2.0
+*	[ORMLite for Android](http://sourceforge.net/projects/ormlite/), public domain
+*	[Android Support Library](http://developer.android.com/tools/extras/support-library.html), Apache License 2.0
 
 
 License
