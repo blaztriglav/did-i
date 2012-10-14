@@ -50,7 +50,7 @@ The following dependencies are bundled with Did I?, but are under terms of a sep
 *	[Android Support Library](hhttp://developer.android.com/tools/extras/support-library.html), Apache License 2.0
 
 
-Third-party libraries
+License
 ------------
 
 This project is under the MIT License.
