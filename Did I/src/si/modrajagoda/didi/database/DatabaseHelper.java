@@ -57,14 +57,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		if (habitDao == null) {
 			habitDao = getDao(Habit.class);
 		}
-		return habitDao;
+		return (Dao<Habit, Integer>)habitDao;
 	}
 	
 	public Dao<Day, Integer> getDayDao() throws SQLException {
 		if (dayDao == null) {
 			dayDao = getDao(Day.class);
 		}
-		return dayDao;
+		return (Dao<Day, Integer>)dayDao;
 	}
 	
 	/**
