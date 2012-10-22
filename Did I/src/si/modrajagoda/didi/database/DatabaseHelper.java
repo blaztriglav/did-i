@@ -3,7 +3,6 @@ package si.modrajagoda.didi.database;
 import java.sql.SQLException;
 
 import si.modrajagoda.didi.R;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -53,16 +52,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 * Returns the Database Access Object (DAO) for table class. It will create it or just give the cached
 	 * value.
 	 */
+	@SuppressWarnings("unchecked")
 	public Dao<Habit, Integer> getHabitDao() throws SQLException {
 		if (habitDao == null) {
-			habitDao = getDao(Habit.class);
+			habitDao = (Dao<Habit, Integer>)getDao(Habit.class);
 		}
 		return (Dao<Habit, Integer>)habitDao;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Dao<Day, Integer> getDayDao() throws SQLException {
 		if (dayDao == null) {
-			dayDao = getDao(Day.class);
+			dayDao = (Dao<Day, Integer>)getDao(Day.class);
 		}
 		return (Dao<Day, Integer>)dayDao;
 	}
