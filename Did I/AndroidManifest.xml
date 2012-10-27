@@ -2,6 +2,8 @@
     package="si.modrajagoda.didi"
     android:versionCode="1"
     android:versionName="1.0" >
+    
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -13,6 +15,14 @@
         android:theme="@style/AppTheme" >
         <receiver android:name=".AlarmReceiver" >
         </receiver>
+        
+        <receiver android:name=".BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+   
 
         <activity
             android:name=".Main"

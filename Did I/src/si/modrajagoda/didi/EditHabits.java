@@ -77,7 +77,7 @@ public class EditHabits extends FragmentActivity implements OnItemClickListener,
 		habitQuestions = new ArrayList<String>(); 
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		minutes = settings.getInt(MINUTES, 0);
-		hours = settings.getInt(HOURS, 21);
+		hours = settings.getInt(HOURS, 22);
 		habitsToDelete = new ArrayList<Habit>();
 
 		loadUI();
