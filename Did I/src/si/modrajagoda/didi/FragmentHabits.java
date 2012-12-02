@@ -1,14 +1,16 @@
 package si.modrajagoda.didi;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import si.modrajagoda.didi.database.DatabaseHelper;
 import si.modrajagoda.didi.database.Day;
 import si.modrajagoda.didi.database.Habit;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,15 +22,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
 
 public class FragmentHabits extends Fragment implements OnClickListener, OnPageChangeListener {
 
@@ -91,6 +90,7 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 
 		date = Calendar.getInstance();
 		currentDay = date.get(Calendar.DAY_OF_YEAR);
+
 		lastDayOfEntry = settings.getInt(LAST_DAY_OF_ENTRY, 0);
 
 		try {
@@ -115,6 +115,12 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 							dayDao.create(day);
 						}
 					}
+					
+					else if(currentDay - lastDayOfEntry < 0) {
+						day = new Day(habit, days.size()+1, false);
+						dayDao.create(day);
+					}
+					
 					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 
 				}
@@ -166,6 +172,16 @@ public class FragmentHabits extends Fragment implements OnClickListener, OnPageC
 		pager.setCurrentItem(0);
 
 	}
+
+	public static long daysBetween(Calendar lastDayOfEntry, Calendar currentDay) {  
+		Calendar date = (Calendar) lastDayOfEntry.clone();  
+		long daysBetween = 0;  
+		while (date.before(currentDay)) {  
+			date.add(Calendar.DAY_OF_MONTH, 1);  
+			daysBetween++;  
+		}  
+		return daysBetween;  
+	}  
 
 	private void loadDummyValues() {
 
