@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal" >
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_side" >
 
-    <include layout="@layout/element_question"
+    <include
+        android:layout_weight="1"
+        layout="@layout/element_question" />
+
+    <RelativeLayout
+        android:id="@+id/chart_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    
-	<include layout="@layout/element_buttons_yes_no"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_centerInParent="true"
-	    android:layout_marginTop="50dp"
-	    />
-	
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginLeft="@dimen/margin_chart"
+        android:layout_marginRight="@dimen/margin_chart"
+        android:layout_weight="8"
+        android:background="@drawable/indicator_neutral" >
+
+        <LinearLayout
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:orientation="horizontal" />
+    </RelativeLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        layout="@layout/element_buttons_yes_no" />
+
+</LinearLayout>
