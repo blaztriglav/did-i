@@ -215,13 +215,6 @@ public class Main extends FragmentActivity implements OnPageChangeListener {
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		
-		
-	}
-
-	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		if (databaseHelper != null) {
