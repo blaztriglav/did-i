@@ -43,9 +43,9 @@ public class ViewPagerAdapterHabit extends PagerAdapter implements OnClickListen
 
 	private GraphicalView mChartView;
 	
-	private final Context context;
-	private final int questionCount;
-	private final ArrayList<String> habitQuestions;
+	private Context context;
+	private int questionCount;
+	private ArrayList<String> habitQuestions;
 	private List<Habit> habits;
 	private Habit habit;
 	private ForeignCollection<Day> days;
