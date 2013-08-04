@@ -28,9 +28,8 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Main extends FragmentActivity implements OnClickListener, OnPageChangeListener {
-	
-	private View view;
+public class Main extends FragmentActivity implements OnPageChangeListener {
+
 	private int[] viewIndicators = {R.id.image_view_indicator_1, R.id.image_view_indicator_2, 
 			R.id.image_view_indicator_3, R.id.image_view_indicator_4, R.id.image_view_indicator_5};
 
@@ -45,31 +44,43 @@ public class Main extends FragmentActivity implements OnClickListener, OnPageCha
 	private ForeignCollection<Day> days;
 	private Day day;
 
-	private static SharedPreferences settings;
+	private SharedPreferences settings;
 	private Calendar date;
 	private int currentDay;
 	private int lastDayOfEntry;
 	private String LAST_DAY_OF_ENTRY = "LAST_DAY_OF_ENTRY";
+	
+	private int activePage;
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		settings = PreferenceManager.getDefaultSharedPreferences(this);
+		databaseHelper = getHelper();
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.d("IRAN", "RAN SO FAR AWAY");
-		loadUI();
+
+		getHabits();
+		addDays();
+		loadIndicators();
+		loadViewPager();
+		//	loadDummyValues();
+
 	}
 
-
-	private void loadUI() {
-		// Get all the habits from the database
-		databaseHelper = getHelper();
+	/** Gets all active habits from the database.
+	 * 
+	 */
+	private void getHabits() {
+		
 		habitQuestions = new ArrayList<String>();
+
 		try {
 			habitDao = databaseHelper.getHabitDao();
 			habits = habitDao.queryForAll();
@@ -82,10 +93,14 @@ public class Main extends FragmentActivity implements OnClickListener, OnPageCha
 			e.printStackTrace();
 		}
 
-		// Check the date, add no's for unanswered days in between last check-in
-
-		settings = PreferenceManager.getDefaultSharedPreferences(this);
-
+	}
+	
+	/** Adds a day or a number of days to the habits in the database.
+	 * 	Probably the worst written method in the codebase. No use in
+	 * 	explaining, this entire part needs to be rewritten in the near
+	 * 	future, along with the underlying database structure.
+	 */
+	private void addDays() {
 		date = Calendar.getInstance();
 		currentDay = date.get(Calendar.DAY_OF_YEAR);
 
@@ -101,11 +116,13 @@ public class Main extends FragmentActivity implements OnClickListener, OnPageCha
 
 				if(lastDayOfEntry != 0) {
 
-					//If this is a newly added question, a day needs to be added either way
+					
 					if(days.size()==0) {
+
 						day = new Day(habit, days.size()+1, false);
 						dayDao.create(day);
 					}
+					
 					if(currentDay - lastDayOfEntry > 0) {
 
 						for (int i2 = 0; i2 < (currentDay-lastDayOfEntry); i2++) {
@@ -118,8 +135,6 @@ public class Main extends FragmentActivity implements OnClickListener, OnPageCha
 						day = new Day(habit, days.size()+1, false);
 						dayDao.create(day);
 					}
-					
-					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 
 				}
 
@@ -127,60 +142,60 @@ public class Main extends FragmentActivity implements OnClickListener, OnPageCha
 					day = new Day(habit, days.size()+1, false);
 					dayDao.create(day);
 
-					settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 				}
+				
 			}
+			
+			settings.edit().putInt(LAST_DAY_OF_ENTRY, currentDay).commit();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
 
-		// Dynamically display number of habits indicator
-		ImageView indicator;
-		switch (questionCount) {
-		case 5:
-			indicator = (ImageView) findViewById(R.id.image_view_indicator_5);
-			indicator.setVisibility(View.VISIBLE);
-		case 4:
-			indicator = (ImageView) findViewById(R.id.image_view_indicator_4);
-			indicator.setVisibility(View.VISIBLE);
-		case 3:
-			indicator = (ImageView) findViewById(R.id.image_view_indicator_3);
-			indicator.setVisibility(View.VISIBLE);
-		case 2:
-			indicator = (ImageView) findViewById(R.id.image_view_indicator_2);
-			indicator.setVisibility(View.VISIBLE);
-		case 1:
-			indicator = (ImageView) findViewById(R.id.image_view_indicator_1);
-			indicator.setVisibility(View.VISIBLE);
-			TextView textViewNoHabits = (TextView) findViewById(R.id.text_view_no_habits);
-			textViewNoHabits.setVisibility(View.GONE);
-			break;
-
-		default:
-			break;
-		}
-
-		//	loadDummyValues();
-
+	/**	Load the view pager UI with the currently active habits.
+	 * 
+	 */
+	private void loadViewPager() {
 		ViewPager pager = (ViewPager) findViewById(R.id.view_pager);
 		ViewPagerAdapterHabit adapter = new ViewPagerAdapterHabit(this, questionCount, habitQuestions, habits, databaseHelper);
 		pager.setAdapter(adapter);
 		pager.setOnPageChangeListener(this);
-		pager.setCurrentItem(0);
-
+		onPageSelected(pager.getCurrentItem());
 	}
 
-	public static long daysBetween(Calendar lastDayOfEntry, Calendar currentDay) {  
-		Calendar date = (Calendar) lastDayOfEntry.clone();  
-		long daysBetween = 0;  
-		while (date.before(currentDay)) {  
-			date.add(Calendar.DAY_OF_MONTH, 1);  
-			daysBetween++;  
-		}  
-		return daysBetween;  
-	}  
+	/**	Load the indicators UI, with the proper number of indicators
+	 * 	based on currently active habits.
+	 */
+	private void loadIndicators() {
+		ImageView indicator;
+		
+		for(int i = 0; i < questionCount; i++) {
+			indicator = (ImageView) findViewById(viewIndicators[i]);
+			indicator.setVisibility(View.VISIBLE);
+		}
+		
+		for(int i = questionCount; i < viewIndicators.length; i++) {
+			indicator = (ImageView) findViewById(viewIndicators[i]);
+			indicator.setVisibility(View.GONE);
+		}
+		
+		if(questionCount!=0) {
+			TextView textViewNoHabits = (TextView) findViewById(R.id.text_view_no_habits);
+			textViewNoHabits.setVisibility(View.GONE);
+		}
+		
+		else {
+			TextView textViewNoHabits = (TextView) findViewById(R.id.text_view_no_habits);
+			textViewNoHabits.setVisibility(View.VISIBLE);
+		}
+		
+	}
 
+	/** Add a day with a random yes/no value to the first habit
+	 * 	in the database. This method is for testing purposes,
+	 * 	and is not used in production.
+	 */
 	private void loadDummyValues() {
 
 		try {
@@ -200,8 +215,10 @@ public class Main extends FragmentActivity implements OnClickListener, OnPageCha
 	}
 
 	@Override
-	public void onClick(View v) {
-
+	public void onPause() {
+		super.onPause();
+		
+		
 	}
 
 	@Override
@@ -255,7 +272,7 @@ public class Main extends FragmentActivity implements OnClickListener, OnPageCha
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -266,5 +283,5 @@ public class Main extends FragmentActivity implements OnClickListener, OnPageCha
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 }
