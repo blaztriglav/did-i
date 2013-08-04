@@ -50,9 +50,6 @@ public class Main extends FragmentActivity implements OnPageChangeListener {
 	private int lastDayOfEntry;
 	private String LAST_DAY_OF_ENTRY = "LAST_DAY_OF_ENTRY";
 	
-	private int activePage;
-
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
